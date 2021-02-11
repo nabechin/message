@@ -1,0 +1,23 @@
+version: "3"
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api
+    command: python run.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api/:/src/app
+  front:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: front
+    command: npm start
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/:/src/app
+      - /src/app/node_modules
