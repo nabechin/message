@@ -7,8 +7,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import MessageOutlinedIcon from "@material-ui/icons/MessageOutlined";
+import Message from "./Message";
 import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
-import { styled } from "@material-ui/core/styles";
+import { styled, makeStyles, createStyles } from "@material-ui/core/styles";
 
 const GridWithBorder = styled(Grid)({
   borderRight: "1px solid #a6a6a6",
@@ -70,7 +71,9 @@ class App extends React.Component {
               <List>{this.contactElementList()}</List>
             </GridWithBorder>
             <Divider flexItem={false} />
-            <Grid item xs={9}></Grid>
+            <Grid item xs={9}>
+              <Message></Message>
+            </Grid>
           </Grid>
         </div>
       </div>

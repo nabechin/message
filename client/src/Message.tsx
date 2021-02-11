@@ -4,13 +4,19 @@ import logo from "./logo.svg";
 
 const useStyles = makeStyles(() =>
   createStyles({
+    root: {
+      height: "100vh",
+    },
+    groupHeader: {
+      height: "40px",
+      background: "#f2f2f2",
+    },
     lineBc: {
       padding: "20px 10px",
-      maxWidth: "450px",
-      margin: "15px auto",
+      maxWidth: "1387px",
+      height: "700px",
       textAlign: "right",
       fontSize: "14px",
-      background: "#7da4cd",
     },
     balloon6: {
       width: "100%",
@@ -55,7 +61,7 @@ const useStyles = makeStyles(() =>
       padding: "8px",
       maxWidth: "250px",
       borderRadius: "12px",
-      background: "#30e852",
+      background: "#80d4ff",
       fontSize: "15px",
       "&:after": {
         content: "",
@@ -78,13 +84,31 @@ const useStyles = makeStyles(() =>
       height: "auto",
       borderRadius: "50%",
     },
+    messagePallet: {
+      height: "190px",
+    },
+    messageOption: {
+      background: "#f2f2f2",
+      height: "20%",
+    },
+    textarea: {
+      resize: "none",
+      width: "100%",
+      border: "none",
+      height: "100%",
+      outline: "none",
+    },
+    message: {
+      height: "80%",
+    },
   })
 );
 
 const Message = (): JSX.Element => {
   const classes = useStyles();
   return (
-    <div>
+    <div className={classes.root}>
+      <div className={classes.groupHeader}>aaa</div>
       <div className={classes.lineBc}>
         <div className={classes.balloon6}>
           <div className={classes.faceicon}>
@@ -98,6 +122,12 @@ const Message = (): JSX.Element => {
         </div>
         <div className={classes.mesays}>
           <p className={classes.mycomment}>右ふきだし文</p>
+        </div>
+      </div>
+      <div className={classes.messagePallet}>
+        <div className={classes.messageOption}></div>
+        <div className={classes.message}>
+          <textarea className={classes.textarea}></textarea>
         </div>
       </div>
     </div>
