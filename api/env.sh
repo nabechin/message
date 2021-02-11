@@ -1,0 +1,1 @@
+export MYSQL_ROOT_PASSWORD=example
