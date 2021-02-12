@@ -1,2 +1,6 @@
 .vscode
 .eslintcache
+
+__pycache__/
+.env
+migrations/

@@ -14,7 +14,7 @@ import { styled, makeStyles, createStyles } from "@material-ui/core/styles";
 const GridWithBorder = styled(Grid)({
   borderRight: "1px solid #a6a6a6",
 });
-class App extends React.Component<Props> {
+class App extends React.Component {
   private contactList: { roomname: string; talk: string }[] = [
     { roomname: "ぶらり車旅", talk: "お疲れ" },
     { roomname: "俺ら青春の", talk: "yes" },
