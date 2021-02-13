@@ -1,5 +1,7 @@
 from flask import Flask, jsonify
 
+import message.models
+
 from message.database.database import init_db
 
 app = Flask(__name__)

@@ -5,7 +5,6 @@ services:
       context: ./api
       dockerfile: Dockerfile
     container_name: api
-    command: flask run --host 0.0.0.0 --port 5000
     env_file:
       - ./api/.env
     ports:
@@ -30,8 +29,10 @@ services:
       context: ./database
       dockerfile: Dockerfile
     container_name: db
+    ports:
+      - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=mysqluser
       - MYSQL_PASSWORD=mysqlpassword
       - MYSQL_DATABASE=mysqldatabase
-      - MYSQL_USER=mysqluser
