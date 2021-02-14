@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_jwt import JWT, jwt_required, current_identity
 
 import message.models
 
