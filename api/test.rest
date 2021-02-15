@@ -1,0 +1,3 @@
+GET http://localhost:5000
+Content-Type: application/json
+Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTMzOTkyMzAsImlhdCI6MTYxMzM5ODkzMCwibmJmIjoxNjEzMzk4OTMwLCJpZGVudGl0eSI6MX0._nHxXj_NzC6YWEqyx-WVAca5MG88FnPGlyj6_UgcuZk
