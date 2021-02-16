@@ -1,5 +1,9 @@
+import logging
+
 from message.models.user import User
 from werkzeug.security import safe_str_cmp
+
+logger = logging.getLogger(__name__)
 
 
 def authenticate(email, password):
@@ -9,5 +13,5 @@ def authenticate(email, password):
 
 
 def identity(payload):
-    email = payload["identity"]
-    return User.query.filter_by(email=email).first()
+    user_id = payload["identity"]
+    return User.query.get(user_id)
