@@ -1,16 +1,197 @@
-2021-02-16 14:17:23,671 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
-2021-02-16 14:17:59,984 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
-2021-02-16 14:19:20,438 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
-2021-02-16 14:20:53,414 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:20:53] "[37mPOST /auth HTTP/1.1[0m" 200 -
-2021-02-16 14:21:30,707 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:21:30] "[31m[1mGET / HTTP/1.1[0m" 401 -
-2021-02-16 14:22:12,035 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:22:12] "[37mPOST /auth HTTP/1.1[0m" 200 -
-2021-02-16 14:22:52,733 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:22:52] "[37mPOST /auth HTTP/1.1[0m" 200 -
-2021-02-16 14:23:47,123 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:23:47] "[31m[1mGET / HTTP/1.1[0m" 401 -
-2021-02-16 14:25:38,550 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:25:38] "[31m[1mPOST /auth HTTP/1.1[0m" 401 -
-2021-02-16 14:35:58,293 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:35:58] "[37mPOST /auth HTTP/1.1[0m" 200 -
-2021-02-16 14:36:22,358 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:36:22] "[31m[1mGET / HTTP/1.1[0m" 401 -
-2021-02-16 14:38:48,001 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:38:48] "[31m[1mGET / HTTP/1.1[0m" 401 -
-2021-02-16 14:38:50,722 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:38:50] "[31m[1mGET / HTTP/1.1[0m" 401 -
-2021-02-16 14:46:02,886 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
-2021-02-16 14:46:58,606 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:46:58] "[37mPOST /auth HTTP/1.1[0m" 200 -
-2021-02-16 14:47:30,886 werkzeug INFO 172.24.0.1 - - [16/Feb/2021 14:47:30] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 12:36:11,516 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 13:35:57,404 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 13:46:01,031 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 33, in get_groups
+    return conversation_interactor.get_group_list_by_user_id(user_id)
+  File "/src/app/message/interactor/conversation.py", line 11, in get_group_list_by_user_id
+    self.__conversation_repository.get_group_list_by_user_id(user_id)
+AttributeError: type object 'DBConversationRepository' has no attribute 'get_group_list_by_user_id'
+2021-02-18 13:46:01,051 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 13:46:01] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 13:48:08,759 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 13:48:35,753 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 33, in get_groups
+    return conversation_interactor.get_rooms_by_user_id(user_id)
+AttributeError: 'ConversationInteractor' object has no attribute 'get_rooms_by_user_id'
+2021-02-18 13:48:35,770 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 13:48:35] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 13:49:58,971 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 13:50:41,405 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2097, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2021-02-18 13:50:41,418 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 13:50:41] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 13:52:21,937 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2097, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2021-02-18 13:52:21,945 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 13:52:21] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 13:53:29,454 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 13:54:44,271 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 13:54:44] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 13:57:33,212 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 13:57:36,935 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 13:57:36] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:02:16,389 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:02:23,793 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:02:23] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:04:05,447 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:04:13,981 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:04:13] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:05:39,317 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:06:01,511 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:06:01] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:06:14,374 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:06:14] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:06:14,802 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:06:14] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2021-02-18 14:08:18,406 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:08:25,304 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:08:25] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:11:42,727 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:11:52,812 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:11:52] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:13:56,019 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:13:56,605 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:13:56] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:19:37,690 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:19:47,795 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:19:47] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:20:33,835 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:20:43,331 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:20:43] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:22:13,762 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:22:19,432 root INFO aaa
+2021-02-18 14:22:19,443 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:22:19] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:24:46,857 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:24:52,100 message.views.views INFO aaa
+2021-02-18 14:24:52,122 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:24:52] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:25:26,769 message.views.views INFO aaa
+2021-02-18 14:25:26,779 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:25:26] "[37mGET / HTTP/1.1[0m" 200 -
+2021-02-18 14:26:13,368 message.views.views INFO None
+2021-02-18 14:26:13,377 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 40, in get_groups
+    return jsonify(rooms.user.name)
+AttributeError: 'NoneType' object has no attribute 'user'
+2021-02-18 14:26:13,413 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:26:13] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 14:28:36,424 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:28:37,213 message.views.views INFO None
+2021-02-18 14:28:37,216 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 40, in get_groups
+    return jsonify(rooms.user.name)
+AttributeError: 'NoneType' object has no attribute 'user'
+2021-02-18 14:28:37,231 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:28:37] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 14:29:27,431 message.views.views INFO None
+2021-02-18 14:29:27,437 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 40, in get_groups
+    return jsonify(rooms.user.name)
+AttributeError: 'NoneType' object has no attribute 'user'
+2021-02-18 14:29:27,443 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:29:27] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 14:30:16,612 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:30:21,737 message.views.views INFO 1
+2021-02-18 14:30:21,745 message.views.views INFO None
+2021-02-18 14:30:21,750 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 41, in get_groups
+    return jsonify(rooms.user.name)
+AttributeError: 'NoneType' object has no attribute 'user'
+2021-02-18 14:30:21,764 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:30:21] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
+2021-02-18 14:32:38,088 werkzeug INFO  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2021-02-18 14:32:44,535 message.views.views INFO SELECT participants.id AS participants_id, participants.user_id AS participants_user_id, participants.room_id AS participants_room_id, rooms_1.id AS rooms_1_id, users_1.id AS users_1_id, users_1.name AS users_1_name, users_1.email AS users_1_email, users_1.password AS users_1_password 
+FROM participants LEFT OUTER JOIN rooms AS rooms_1 ON rooms_1.id = participants.room_id LEFT OUTER JOIN users AS users_1 ON users_1.id = participants.user_id 
+WHERE participants.user_id = %(user_id_1)s
+2021-02-18 14:32:44,548 message.views.views ERROR Exception on /groups/1 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/src/app/message/views/views.py", line 40, in get_groups
+    return jsonify(rooms.user.name)
+AttributeError: 'BaseQuery' object has no attribute 'user'
+2021-02-18 14:32:44,555 werkzeug INFO 172.24.0.1 - - [18/Feb/2021 14:32:44] "[35m[1mGET /groups/1 HTTP/1.1[0m" 500 -
