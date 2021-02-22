@@ -27,4 +27,4 @@ class Participant(db.Model):
 
     @classmethod
     def get_rooms_by_user_id(cls, user_id: int):
-        return cls.query.filter_by(user_id=user_id)
+        return cls.query.filter_by(user_id=user_id).all()

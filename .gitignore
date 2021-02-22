@@ -1,8 +1,9 @@
 .vscode
+.devcontainer
 .eslintcache
 
 __pycache__/
 .env
 migrations/
 test.rest
-spi.log
+api.log

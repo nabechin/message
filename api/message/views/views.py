@@ -17,7 +17,6 @@ init_db(app)
 
 jwt = JWT(app, authenticate, identity)
 
-logging.config.fileConfig('message/log/logging.ini')
 logger = logging.getLogger(__name__)
 
 
@@ -28,7 +27,6 @@ def get_messages():
         "message1",
         "message1"
     ]
-    logger.info('aaa')
     return jsonify(messages), 200
 
 
@@ -37,4 +35,4 @@ def get_groups(user_id: int):
     conversation_interactor = ConversationInteractor(DBConversationRepository)
     rooms = conversation_interactor.get_rooms_by_user_id(user_id)
     logger.info(rooms)
-    return jsonify(rooms.user.name)
+    return jsonify(rooms)
