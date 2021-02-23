@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import logo from "./logo.svg";
+import logo from "../../../logo.svg";
 
 const useStyles = makeStyles(() =>
   createStyles({
