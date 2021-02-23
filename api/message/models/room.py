@@ -6,7 +6,8 @@ class Room(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     participants = db.relationship("Participant", lazy="select",
-                                   backref=db.backref("participant", lazy="joined"))
+                                   backref=db.backref("room", lazy="joined"))
+    name = db.Column(db.String(255), nullable=False)
 
 
 class Message(db.Model):
@@ -26,5 +27,5 @@ class Participant(db.Model):
     room_id = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=False)
 
     @classmethod
-    def get_rooms_by_user_id(cls, user_id: int):
+    def get_participants_by_user_id(cls, user_id: int):
         return cls.query.filter_by(user_id=user_id).all()
