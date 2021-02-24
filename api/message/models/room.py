@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from message.database.database import db
 
 
@@ -5,11 +7,14 @@ class Room(db.Model):
     __tablename__ = "rooms"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False, default="")
     participants = db.relationship("Participant", lazy="select",
                                    backref=db.backref("room", lazy="joined"))
     messages = db.relationship("Message", lazy="select",
                                backref=db.backref("message", lazy="joined"))
+    is_group = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
 
 class Message(db.Model):
@@ -17,7 +22,7 @@ class Message(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=False)
-    create_at = db.Column(db.DateTime, nullable=False)
+    create_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=False)
 
