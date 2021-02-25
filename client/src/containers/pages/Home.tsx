@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 
-import GroupList from "../organisms/GroupList";
+import RoomList from "../organisms/RoomList";
 import Message from "../organisms/Message";
 import SideBar from "../organisms/SideBar";
 import { styled } from "@material-ui/core/styles";

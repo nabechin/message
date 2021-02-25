@@ -7,9 +7,9 @@ import message.models
 
 from message.database.database import init_db
 from message.views.auth import authenticate, identity
-from message.repository.participant import DBParticipantRepository
-from message.interactor.participant import ParticipantInteractor
-from message.presenter.participant import ParticipantSerializer
+from message.repository.room import DBRoomRepository
+from message.interactor.room import RoomInteractor
+from message.presenter.room import RoomSerializer
 
 app = Flask(__name__)
 app.config.from_object("message.config.Config")
@@ -33,9 +33,9 @@ def get_messages():
 
 @app.route("/rooms/<user_id>", methods=["GET"])
 def get_groups(user_id: int):
-    participant_repository = DBParticipantRepository()
-    paritcipant_presenter = ParticipantSerializer()
-    participant_interactor = ParticipantInteractor(participant_repository, paritcipant_presenter)
-    rooms = participant_interactor.get_rooms_by_user_id(user_id)
+    room_repository = DBRoomRepository()
+    room_presenter = RoomSerializer()
+    room_interactor = RoomInteractor(room_repository, room_presenter)
+    rooms = room_interactor.get_rooms_by_user_id(user_id)
     logger.info(rooms)
     return jsonify(rooms)

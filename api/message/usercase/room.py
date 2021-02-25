@@ -1,10 +1,10 @@
 from abc import ABCMeta, abstractmethod
 
 
-class IParticipantRepository(metaclass=ABCMeta):
+class IRoomUsecase(metaclass=ABCMeta):
     def __init__(self):
         pass
 
     @abstractmethod
-    def get_participants_by_user_id(self, user_id: int):
+    def get_rooms_by_user_id(user_id: int):
         pass

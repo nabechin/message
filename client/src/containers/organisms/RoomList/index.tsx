@@ -4,7 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
-const GroupList = (): JSX.Element => {
+const RoomList = (): JSX.Element => {
   const contactList = (): { roomname: string; talk: string }[] => {
     return [
       { roomname: "友達A", talk: "お疲れ" },
@@ -31,4 +31,4 @@ const GroupList = (): JSX.Element => {
   };
   return <div>{renderContactList()}</div>;
 };
-export default GroupList;
+export default RoomList;
