@@ -2,6 +2,7 @@ import logging
 
 from flask import Flask, jsonify
 from flask_jwt import JWT, jwt_required
+from flask_cors import CORS
 
 import message.models
 
@@ -15,6 +16,7 @@ app = Flask(__name__)
 app.config.from_object("message.config.Config")
 app.config['SECRET_KEY'] = "eafwufhafeaefaergfarf"
 init_db(app)
+CORS(app)
 
 jwt = JWT(app, authenticate, identity)
 

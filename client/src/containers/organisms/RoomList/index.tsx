@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
+interface Rooms {
+  name: string;
+  message: string;
+}
 const RoomList = (): JSX.Element => {
-  const contactList = (): { roomname: string; talk: string }[] => {
-    return [
-      { roomname: "友達A", talk: "お疲れ" },
-      { roomname: "友達B", talk: "お疲れ" },
-      { roomname: "友達C", talk: "お疲れ" },
-    ];
-  };
+  const [rooms, setRooms] = useState<Rooms[]>([]);
+  useEffect(() => {
+    const getRooms = async () => {
+      const { data } = await axios.get("http://localhost:5000/rooms/1");
+      setRooms(data);
+      console.log(data);
+    };
+    getRooms();
+  }, []);
+
   const renderContactList = (): JSX.Element[] => {
-    return contactList().map((contact, key) => {
+    return rooms.map((room, key) => {
       return (
         <React.Fragment key={key}>
           <ListItem>
@@ -21,8 +29,8 @@ const RoomList = (): JSX.Element => {
               <Avatar></Avatar>
             </ListItemAvatar>
             <ListItemText
-              primary={contact.roomname}
-              secondary={contact.talk}
+              primary={room.name}
+              secondary={room.message}
             ></ListItemText>
           </ListItem>
         </React.Fragment>
