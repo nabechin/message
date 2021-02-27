@@ -8,8 +8,9 @@ class MessageSerializer(IMessagePresenter):
     def console(self, messages: list) -> list:
         message_list = []
         for message in messages:
-            room_list.append({
-                "username": message.user.name
-                "user_name": message.content,
+            message_list.append({
+                "user_id": message.user.id,
+                "username": message.user.name,
+                "content": message.content,
             })
         return message_list

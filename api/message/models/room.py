@@ -39,7 +39,7 @@ class Message(db.Model):
 
     @classmethod 
     def get_messages_by_room_id(cls, room_id: int) -> list:
-        return cls.query.filter(room_id=room_id).all()
+        return cls.query.filter_by(room_id=room_id).all()
 
 
 class Participant(db.Model):

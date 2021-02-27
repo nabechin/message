@@ -1,4 +1,4 @@
-from message.usercase.room import IRoomUsecase
+from message.usecase.room import IRoomUsecase
 from message.repository.room import IRoomRepository
 from message.presenter.i_room import IRoomPresenter
 
