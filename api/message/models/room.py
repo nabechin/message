@@ -28,7 +28,6 @@ class Room(db.Model):
         return room_list
 
 
-
 class Message(db.Model):
     __tablename__ = "messages"
 
@@ -37,6 +36,10 @@ class Message(db.Model):
     create_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=False)
+
+    @classmethod 
+    def get_messages_by_room_id(cls, room_id: int) -> list:
+        return cls.query.filter(room_id=room_id).all()
 
 
 class Participant(db.Model):
