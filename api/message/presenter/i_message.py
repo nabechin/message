@@ -5,7 +5,7 @@ from message.models.room import Message
 
 class IMessagePresenter(metaclass=ABCMeta):
     @abstractmethod
-    def serialize_messages(messages: list) -> List[dict]:
+    def serialize_messages(messages: list) -> list:
         pass
 
     @abstractmethod

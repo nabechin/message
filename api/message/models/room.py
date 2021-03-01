@@ -48,6 +48,8 @@ class Message(db.Model):
     
     def add(self):
         db.session.add(self)
+        db.session.commit()
+        return self
 
 
 class Participant(db.Model):

@@ -13,7 +13,7 @@ from message.repository.message import DBMessageRepository
 from message.interactor.room import RoomInteractor
 from message.interactor.message import MessageInteractor
 from message.presenter.room import RoomSerializer
-from message.presenter.message import MessageSerializer, MessageCreateSerializer
+from message.presenter.message import MessageSerializer
 from message.models.room import Message
 
 
@@ -48,8 +48,9 @@ def get_messages(room_id: int):
 def create_message():
     message_dict = request.get_json()
     content = message_dict["content"]
-    user_id = message_dict["user_id"]
-    room_id = message_dict["room_id"]
-    message = Message(content, user_id, room_id)
-    message_interactor = MessageInteractor(DBMessageRepository(), MessageCreateSerializer())
+    user_id = message_dict["userid"]
+    room_id = message_dict["roomid"]
+    message = Message(content, int(user_id), int(room_id))
+    message_interactor = MessageInteractor(DBMessageRepository(), MessageSerializer())
     message = message_interactor.create_message(message)
+    return jsonify(message)

@@ -16,10 +16,10 @@ class MessageSerializer(IMessagePresenter):
             })
         return message_list
 
-    def serialize_message(self, message: Message):
+    def serialize_message(self, message: Message) -> dict:
         message_dict = {
             "user_id": message.user.id,
-            "username": messaeg.user.name,
+            "username": message.user.name,
             "content": message.content
         }
         return message_dict
