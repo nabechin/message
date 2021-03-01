@@ -8,3 +8,6 @@ class DBMessageRepository(IMessageRepository):
 
     def get_messages_by_room_id(self, user_id: int):
         return Message.get_messages_by_room_id(user_id)
+
+    def create_message(self, message: Message):
+        return message.add()

@@ -3,6 +3,7 @@ import axios from "axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import OthersMessage from "./OthersMessage";
 import MyMessage from "./MyMessage";
+import { time } from "console";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -58,7 +59,7 @@ const Message = (): JSX.Element => {
   }, []);
   const classes = useStyles();
   const renderMessages = () => {
-    return messages.map((message, index) => {
+    return messages.map((message, key) => {
       return renderMessage(message);
     });
   };

@@ -1,6 +1,7 @@
 from message.usecase.message import IMessageUsecase
 from message.repository.message import IMessageRepository
 from message.presenter.i_message import IMessagePresenter
+from message.models.room import Message
 
 
 class MessageInteractor(IMessageUsecase):
@@ -11,4 +12,8 @@ class MessageInteractor(IMessageUsecase):
 
     def get_messages_by_room_id(self, user_id: int):
         rooms = self.__message_repository.get_messages_by_room_id(user_id)
-        return self.__message_presenter.console(rooms)
+        return self.__message_presenter.serialize_messages(rooms)
+    
+    def create_message(self, message: Message):
+        message = self.__message_repository.create_message(message)
+        return self.__message_presenter.serialize_message(message)

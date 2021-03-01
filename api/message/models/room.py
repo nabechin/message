@@ -37,9 +37,17 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=False)
 
+    def __init__(self, content: str, user_id: int, room_id: int):
+        self.content = content
+        self.user_id = user_id
+        self.room_id = room_id
+
     @classmethod 
     def get_messages_by_room_id(cls, room_id: int) -> list:
         return cls.query.filter_by(room_id=room_id).all()
+    
+    def add(self):
+        db.session.add(self)
 
 
 class Participant(db.Model):
