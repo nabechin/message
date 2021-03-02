@@ -20,6 +20,7 @@ from message.models.room import Message
 app = Flask(__name__)
 app.config.from_object("message.config.Config")
 app.config['SECRET_KEY'] = "eafwufhafeaefaergfarf"
+app.config['CORS_HEADERS'] = "Content-Type"
 init_db(app)
 CORS(app)
 

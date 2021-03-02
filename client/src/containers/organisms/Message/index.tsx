@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import OthersMessage from "./OthersMessage";
 import MyMessage from "./MyMessage";
-import { time } from "console";
+import OthersMessage from "./OthersMessage";
+import SendIcon from "@material-ui/icons/Send";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -17,16 +17,22 @@ const useStyles = makeStyles(() =>
     lineBc: {
       padding: "20px 10px",
       maxWidth: "1387px",
-      height: "700px",
+      height: "500px",
       textAlign: "right",
       fontSize: "14px",
     },
     messagePallet: {
       height: "190px",
     },
-    messageOption: {
+    messageOptionContainer: {
       background: "#f2f2f2",
       height: "20%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+    },
+    messageOptionItem: {
+      marginRight: "10px",
     },
     textarea: {
       resize: "none",
@@ -57,7 +63,16 @@ const Message = (): JSX.Element => {
     };
     getMessages();
   }, []);
-  const classes = useStyles();
+  const onSend = async (): Promise<void> => {
+    const { data } = await axios.post("http://localhost:5000/messages", {
+      content: "awesome",
+      userid: "2",
+      roomid: "1",
+      headers: { "Content-Type": "application/json" },
+    });
+    setMessages((messages) => [...messages, data]);
+  };
+
   const renderMessages = () => {
     return messages.map((message, key) => {
       return renderMessage(message);
@@ -70,12 +85,19 @@ const Message = (): JSX.Element => {
       return <OthersMessage {...message}></OthersMessage>;
     }
   };
+  const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.groupHeader}>aaa</div>
       <div className={classes.lineBc}>{renderMessages()}</div>
       <div className={classes.messagePallet}>
-        <div className={classes.messageOption}></div>
+        <div className={classes.messageOptionContainer}>
+          <div className={classes.messageOptionItem}>
+            <a onClick={() => onSend()}>
+              <SendIcon></SendIcon>
+            </a>
+          </div>
+        </div>
         <div className={classes.message}>
           <textarea className={classes.textarea}></textarea>
         </div>
