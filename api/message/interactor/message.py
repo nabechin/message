@@ -1,7 +1,8 @@
 from message.usecase.message import IMessageUsecase
 from message.repository.message import IMessageRepository
 from message.presenter.i_message import IMessagePresenter
-from message.models.room import Message
+from message.models.room import Message, Room
+from message.database.database import db
 
 
 class MessageInteractor(IMessageUsecase):
@@ -15,5 +16,10 @@ class MessageInteractor(IMessageUsecase):
         return self.__message_presenter.serialize_messages(rooms)
     
     def create_message(self, message: Message):
-        message = self.__message_repository.create_message(message)
-        return self.__message_presenter.serialize_message(message)
+        try:
+            message = self.__message_repository.create_message(message)
+            return self.__message_presenter.serialize_message(message)
+        except Exception as e:
+            db.session.rollback()
+            raise e
+

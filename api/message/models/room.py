@@ -13,6 +13,7 @@ class Room(db.Model):
                                    backref=db.backref("room", lazy="joined"))
     messages = db.relationship("Message", lazy="select",
                                backref=db.backref("message", lazy="joined"))
+    latest_message = db.Column(db.String(255), nullable=True, default="")
     is_group = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
@@ -23,11 +24,15 @@ class Room(db.Model):
         for row in db.session.execute(sql.GET_ROOMS_QUERY, {"user_id": int(user_id)}):
             room = cls()
             room.name = row[0]
-            room.messages.content = row[1]
+            room.last_message = row[1]
             room_list.append(room)
         return room_list
 
-
+    @classmethod
+    def update_latest_message(cls, id: int, latest_message: str):
+        room = cls.query.get(id)
+        room.latest_message = latest_message
+        
 class Message(db.Model):
     __tablename__ = "messages"
 
@@ -48,6 +53,7 @@ class Message(db.Model):
     
     def add(self):
         db.session.add(self)
+        Room.update_latest_message(self.room_id, self.content)
         db.session.commit()
         return self
 

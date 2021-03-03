@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import MyMessage from "./MyMessage";
@@ -20,6 +20,7 @@ const useStyles = makeStyles(() =>
       height: "500px",
       textAlign: "right",
       fontSize: "14px",
+      overflowY: "scroll",
     },
     messagePallet: {
       height: "190px",
@@ -55,22 +56,35 @@ interface Message {
 
 const Message = (): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [message, setMessage] = useState("");
   const [user_id, setUserId] = useState(1);
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "auto",
+      block: "end",
+    });
+  };
+
   useEffect(() => {
     const getMessages = async () => {
       const { data } = await axios.get("http://localhost:5000/messages/1");
       setMessages(data);
+      scrollToBottom();
     };
     getMessages();
   }, []);
+
   const onSend = async (): Promise<void> => {
     const { data } = await axios.post("http://localhost:5000/messages", {
-      content: "awesome",
-      userid: "2",
+      content: message,
+      userid: "1",
       roomid: "1",
       headers: { "Content-Type": "application/json" },
     });
     setMessages((messages) => [...messages, data]);
+    scrollToBottom();
+    setMessage("");
   };
 
   const renderMessages = () => {
@@ -89,7 +103,10 @@ const Message = (): JSX.Element => {
   return (
     <div className={classes.root}>
       <div className={classes.groupHeader}>aaa</div>
-      <div className={classes.lineBc}>{renderMessages()}</div>
+      <div className={classes.lineBc}>
+        {renderMessages()}
+        <div ref={messagesEndRef}></div>
+      </div>
       <div className={classes.messagePallet}>
         <div className={classes.messageOptionContainer}>
           <div className={classes.messageOptionItem}>
@@ -99,7 +116,11 @@ const Message = (): JSX.Element => {
           </div>
         </div>
         <div className={classes.message}>
-          <textarea className={classes.textarea}></textarea>
+          <textarea
+            className={classes.textarea}
+            onChange={(event) => setMessage(event.target.value)}
+            value={message}
+          ></textarea>
         </div>
       </div>
     </div>
