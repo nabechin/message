@@ -67,7 +67,7 @@ const Message = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const getMessages = async () => {
+    const getMessages = async (): Promise<void> => {
       const { data } = await axios.get("http://localhost:5000/messages/1");
       setMessages(data);
       scrollToBottom();
