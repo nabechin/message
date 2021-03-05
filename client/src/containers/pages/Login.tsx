@@ -62,7 +62,6 @@ const Login = (): JSX.Element => {
           <TextField
             id="outlined-password-input"
             label="Email Address"
-            autoComplete="current-password"
             variant="outlined"
             fullWidth
             margin="normal"
@@ -71,7 +70,6 @@ const Login = (): JSX.Element => {
             id="outlined-password-input"
             label="Password"
             type="password"
-            autoComplete="current-password"
             variant="outlined"
             fullWidth
             margin="normal"
