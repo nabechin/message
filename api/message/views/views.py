@@ -1,12 +1,13 @@
 import logging
 
 from flask import Flask, jsonify, request
-from flask_jwt import JWT, jwt_required
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 
 import message.models
 
 from message.database.database import init_db
+from message.exceptions import UserNotFoundException
 from message.views.auth import authenticate, identity
 from message.repository.room import DBRoomRepository
 from message.repository.message import DBMessageRepository
@@ -21,12 +22,23 @@ app = Flask(__name__)
 app.config.from_object("message.config.Config")
 app.config['SECRET_KEY'] = "eafwufhafeaefaergfarf"
 app.config['CORS_HEADERS'] = "Content-Type"
+
 init_db(app)
 CORS(app)
-
-jwt = JWT(app, authenticate, identity)
+jwt = JWTManager(app)
 
 logger = logging.getLogger(__name__)
+
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    try:
+        authenticate(email, password)
+    except UserNotFoundException as e:
+        return jsonify({"message": "usernotfound"}), 401
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
 
 
 @app.route("/rooms/<user_id>", methods=["GET"])

@@ -10,7 +10,6 @@ import {
   createStyles,
   createMuiTheme,
   ThemeProvider,
-  Theme,
 } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
@@ -21,7 +20,7 @@ const theme = createMuiTheme({
   },
 });
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     form: {
       width: "100%",

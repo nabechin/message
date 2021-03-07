@@ -1,9 +1,9 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import SignupForm from "../organisms/SignupForm";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
