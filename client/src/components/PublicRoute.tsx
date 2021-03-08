@@ -1,15 +1,24 @@
 import React from "react";
-import Signup from "../containers/pages/Signup";
 import { Route } from "react-router-dom";
 
-const PublicRoute = (): JSX.Element => {
-  console.log("aa");
+interface Props {
+  exact?: boolean;
+  path: string;
+  component: React.ComponentType<any>;
+}
+
+const PublicRoute = ({
+  component: Component,
+  ...otherProps
+}: Props): JSX.Element => {
   return (
-    <React.Fragment>
-      <Route exact path="/signup">
-        <Signup></Signup>
-      </Route>
-    </React.Fragment>
+    <Route
+      render={(otherProps: any) => (
+        <>
+          <Component {...otherProps} />
+        </>
+      )}
+    ></Route>
   );
 };
 

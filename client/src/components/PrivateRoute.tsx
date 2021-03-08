@@ -1,19 +1,28 @@
 import React from "react";
 import Login from "../containers/pages/Login";
-import Home from "../containers/pages/Home";
 import { Route } from "react-router-dom";
 import useToken from "../hooks/useToken";
 
-const PrivateRoute = (): JSX.Element => {
+interface Props {
+  exact?: boolean;
+  path: string;
+  component: React.ComponentType<any>;
+}
+
+const PrivateRoute = ({ component: Component }: Props): JSX.Element => {
   const { token, setToken } = useToken();
-  // if (!token) {
-  //   return <Login></Login>;
-  // }
+  if (!token) {
+    return <Login></Login>;
+  }
   return (
     <React.Fragment>
-      <Route exact path="/">
-        <Home></Home>
-      </Route>
+      <Route
+        render={(otherProps: any) => (
+          <>
+            <Component {...otherProps} />
+          </>
+        )}
+      ></Route>
     </React.Fragment>
   );
 };
