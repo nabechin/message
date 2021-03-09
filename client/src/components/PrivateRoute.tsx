@@ -12,7 +12,7 @@ interface Props {
 const PrivateRoute = ({ component: Component }: Props): JSX.Element => {
   const { token, setToken } = useToken();
   if (!token) {
-    return <Login></Login>;
+    return <Login setToken={setToken}></Login>;
   }
   return (
     <React.Fragment>

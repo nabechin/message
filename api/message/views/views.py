@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 
 @app.route("/login", methods=["POST"])
 def login():
+    logger.info(request.json)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     try:

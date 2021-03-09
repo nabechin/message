@@ -4,6 +4,7 @@ import FormHeader from "../../../components/FormHeader";
 import LockOutLinedIcon from "@material-ui/icons/LockOpenOutlined";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import {
   makeStyles,
@@ -11,6 +12,7 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
+import { Credential } from "../../pages/Login";
 
 const theme = createMuiTheme({
   palette: {
@@ -39,29 +41,49 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const LoginForm = (): JSX.Element => {
+interface Props {
+  onSubmit: (credential: Credential) => void;
+}
+
+const LoginForm = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const methods = useForm();
+  const { handleSubmit, control, reset } = methods;
+  const onSubmit = (data: any) => props.onSubmit(data);
   return (
     <React.Fragment>
       <FormHeader headerChar="Sign in">
         <LockOutLinedIcon></LockOutLinedIcon>
       </FormHeader>
-      <form className={classes.form}>
-        <TextField
-          id="outlined-password-input"
-          label="Email Address"
-          variant="outlined"
-          fullWidth
-          margin="normal"
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          as={
+            <TextField
+              id="outlined-password-input"
+              label="Email Address"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+          }
+          name="email"
+          control={control}
         />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          margin="normal"
+        <Controller
+          as={
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+          }
+          control={control}
+          name="password"
         />
+
         <ThemeProvider theme={theme}>
           <Button
             type="submit"

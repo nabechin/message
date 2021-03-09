@@ -1,11 +1,7 @@
 import { useState } from "react";
 
-interface UserToken {
-  access_token: string;
-}
-
 interface UseToken {
-  setToken: (param: UserToken) => void;
+  setToken: (param: { access_token: string }) => void;
   token: string;
 }
 
@@ -20,7 +16,7 @@ export default function useToken(): UseToken {
   };
   const [token, setToken] = useState(getToken());
 
-  const saveToken = (userToken: UserToken): void => {
+  const saveToken = (userToken: { access_token: string }): void => {
     localStorage.setItem("token", JSON.stringify(userToken));
     setToken(userToken.access_token);
   };
