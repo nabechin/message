@@ -53,8 +53,11 @@ interface Message {
   username: string;
   content: string;
 }
+interface Props {
+  room_id: string;
+}
 
-const Message = (): JSX.Element => {
+const Message = (props: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [user_id, setUserId] = useState(1);
@@ -73,7 +76,7 @@ const Message = (): JSX.Element => {
       scrollToBottom();
     };
     getMessages();
-  }, []);
+  }, [props.room_id]);
 
   const onSend = async (): Promise<void> => {
     const { data } = await axios.post("http://localhost:5000/messages", {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
@@ -13,6 +13,10 @@ const GridWithBorder = styled(Grid)({
 });
 
 const Home = (): JSX.Element => {
+  const [roomId, setRoomId] = useState("1");
+  const onClick = (roomId: string) => {
+    setRoomId(roomId);
+  };
   return (
     <React.Fragment>
       <SideBar />
@@ -24,7 +28,7 @@ const Home = (): JSX.Element => {
         </GridWithBorder>
         <Divider flexItem={false} />
         <Grid item xs={9}>
-          <Message></Message>
+          <Message room_id={roomId}></Message>
         </Grid>
       </Grid>
     </React.Fragment>

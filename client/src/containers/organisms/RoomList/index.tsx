@@ -15,7 +15,6 @@ const RoomList = (): JSX.Element => {
     const getRooms = async () => {
       const { data } = await axios.get("http://localhost:5000/rooms/1");
       setRooms(data);
-      console.log(data);
     };
     getRooms();
   }, []);
