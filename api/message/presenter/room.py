@@ -9,6 +9,7 @@ class RoomSerializer(IRoomPresenter):
         room_list = []
         for room in rooms:
             room_list.append({
+                "id": room.id,
                 "name": room.name,
                 "message": room.last_message,
             })

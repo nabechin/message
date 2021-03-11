@@ -23,8 +23,9 @@ class Room(db.Model):
         room_list = []
         for row in db.session.execute(sql.GET_ROOMS_QUERY, {"user_id": int(user_id)}):
             room = cls()
-            room.name = row[0]
-            room.last_message = row[1]
+            room.id = row[0]
+            room.name = row[1]
+            room.last_message = row[2]
             room_list.append(room)
         return room_list
 

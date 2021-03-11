@@ -23,7 +23,7 @@ const Home = (): JSX.Element => {
       <Grid container>
         <GridWithBorder item xs={3}>
           <List>
-            <RoomList></RoomList>
+            <RoomList onClick={onClick} roomId={roomId}></RoomList>
           </List>
         </GridWithBorder>
         <Divider flexItem={false} />

@@ -48,8 +48,9 @@ interface Props {
 const LoginForm = (props: Props): JSX.Element => {
   const classes = useStyles();
   const methods = useForm();
-  const { handleSubmit, control, reset } = methods;
-  const onSubmit = (data: any) => props.onSubmit(data);
+  const { handleSubmit, control } = methods;
+  const onSubmit = (data: { email: string; password: string }) =>
+    props.onSubmit(data);
   return (
     <React.Fragment>
       <FormHeader headerChar="Sign in">

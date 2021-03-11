@@ -1,4 +1,5 @@
 GET_ROOMS_QUERY = ("select "
+                        "r.id, "
                         "case when r.is_group is true then r.name else u.name end as name, "
                         "r.latest_message "
                     "from "

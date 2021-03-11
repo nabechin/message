@@ -71,7 +71,9 @@ const Message = (props: Props): JSX.Element => {
 
   useEffect(() => {
     const getMessages = async (): Promise<void> => {
-      const { data } = await axios.get("http://localhost:5000/messages/1");
+      const { data } = await axios.get(
+        `http://localhost:5000/messages/${props.room_id}`
+      );
       setMessages(data);
       scrollToBottom();
     };

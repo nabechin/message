@@ -6,10 +6,16 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
 interface Rooms {
+  id: string;
   name: string;
   message: string;
 }
-const RoomList = (): JSX.Element => {
+
+interface Props {
+  onClick: (roomId: string) => void;
+  roomId: string;
+}
+const RoomList = (props: Props): JSX.Element => {
   const [rooms, setRooms] = useState<Rooms[]>([]);
   useEffect(() => {
     const getRooms = async () => {
@@ -18,12 +24,29 @@ const RoomList = (): JSX.Element => {
     };
     getRooms();
   }, []);
+  const onClick = (roomId: string) => {
+    props.onClick(roomId);
+  };
+
+  const isSelected = (roomId: string): boolean => {
+    console.log(roomId);
+    console.log(props.roomId);
+    if (roomId == props.roomId) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const renderContactList = (): JSX.Element[] => {
     return rooms.map((room, key) => {
       return (
         <React.Fragment key={key}>
-          <ListItem>
+          <ListItem
+            button
+            onClick={() => onClick(room.id)}
+            {...(isSelected(room.id) ? { selected: true } : null)}
+          >
             <ListItemAvatar>
               <Avatar></Avatar>
             </ListItemAvatar>
