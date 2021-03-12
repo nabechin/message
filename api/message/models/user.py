@@ -12,3 +12,10 @@ class User(db.Model):
                                    backref=db.backref("user", lazy="joined"))
     messages = db.relationship("Message", lazy="select",
                                backref=db.backref("user", lazy="joined"))
+
+class Friend(db.Model):
+    __tablename__ = "friends"
+
+    id = db.Column(db.Integer, primary_key=True)
+    requester = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    receiver = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
