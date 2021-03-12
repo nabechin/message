@@ -5,7 +5,14 @@ import ListItem from "@material-ui/core/ListItem";
 import MessageOutlinedIcon from "@material-ui/icons/MessageOutlined";
 import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
 
-const SideBar = (): JSX.Element => {
+interface Props {
+  onClick: (value: number) => void;
+}
+
+const SideBar = (props: Props): JSX.Element => {
+  const onClick = (tabIndex: number): void => {
+    props.onClick(tabIndex);
+  };
   return (
     <div
       style={{
@@ -17,13 +24,21 @@ const SideBar = (): JSX.Element => {
     >
       <Divider />
       <List>
-        <ListItem button style={{ margin: "5px 0 5px 0" }}>
+        <ListItem
+          button
+          style={{ margin: "5px 0 5px 0" }}
+          onClick={() => onClick(0)}
+        >
           <PermIdentityOutlinedIcon
             fontSize="large"
             style={{ color: "white" }}
           />
         </ListItem>
-        <ListItem button style={{ margin: "5px 0 5px 0" }}>
+        <ListItem
+          button
+          style={{ margin: "5px 0 5px 0" }}
+          onClick={() => onClick(1)}
+        >
           <MessageOutlinedIcon fontSize="large" style={{ color: "white" }} />
         </ListItem>
       </List>
