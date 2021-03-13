@@ -12,15 +12,29 @@ const GridWithBorder = styled(Grid)({
   borderRight: "1px solid #a6a6a6",
 });
 
+interface FriendListIndex {
+  sectionKey: number;
+  itemKey: number;
+}
+
 const Home = (): JSX.Element => {
   const [roomId, setRoomId] = useState("1");
   const [tabIndex, setTubindex] = useState(0);
+  const [friendIndex, setFriendIndex] = useState<FriendListIndex | null>(null);
   const onClick = (roomId: string) => {
     setRoomId(roomId);
   };
+  const onFriendClick = (friend: FriendListIndex): void => {
+    setFriendIndex(friend);
+  };
   const renderMenuList = (): JSX.Element => {
     if (tabIndex === 0) {
-      return <FriendList></FriendList>;
+      return (
+        <FriendList
+          onClick={onFriendClick}
+          friendIndex={friendIndex}
+        ></FriendList>
+      );
     } else {
       return <RoomList onClick={onClick} roomId={roomId}></RoomList>;
     }

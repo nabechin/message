@@ -10,6 +10,7 @@ class MessageSerializer(IMessagePresenter):
         message_list = []
         for message in messages:
             message_list.append({
+                "id": message.id,
                 "user_id": message.user.id,
                 "username": message.user.name,
                 "content": message.content,

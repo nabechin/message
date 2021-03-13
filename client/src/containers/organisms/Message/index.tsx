@@ -49,6 +49,7 @@ const useStyles = makeStyles(() =>
 );
 
 interface Message {
+  id: number;
   user_id: number;
   username: string;
   content: string;
@@ -93,15 +94,15 @@ const Message = (props: Props): JSX.Element => {
   };
 
   const renderMessages = () => {
-    return messages.map((message, key) => {
+    return messages.map((message) => {
       return renderMessage(message);
     });
   };
   const renderMessage = (message: Message): JSX.Element => {
     if (message.user_id === user_id) {
-      return <MyMessage {...message}></MyMessage>;
+      return <MyMessage key={message.id} {...message}></MyMessage>;
     } else {
-      return <OthersMessage {...message}></OthersMessage>;
+      return <OthersMessage key={message.id} {...message}></OthersMessage>;
     }
   };
   const classes = useStyles();
