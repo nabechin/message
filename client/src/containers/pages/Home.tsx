@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import FriendList from "../organisms/FriendList";
-import List from "@material-ui/core/List";
 
 import RoomList from "../organisms/RoomList";
 import Message from "../organisms/Message";
@@ -21,9 +20,9 @@ const Home = (): JSX.Element => {
   };
   const renderMenuList = (): JSX.Element => {
     if (tabIndex === 0) {
-      return <RoomList onClick={onClick} roomId={roomId}></RoomList>;
-    } else {
       return <FriendList></FriendList>;
+    } else {
+      return <RoomList onClick={onClick} roomId={roomId}></RoomList>;
     }
   };
   return (
@@ -31,7 +30,7 @@ const Home = (): JSX.Element => {
       <SideBar onClick={setTubindex} />
       <Grid container>
         <GridWithBorder item xs={3}>
-          <List>{renderMenuList()}</List>
+          {renderMenuList()}
         </GridWithBorder>
         <Divider flexItem={false} />
         <Grid item xs={9}>

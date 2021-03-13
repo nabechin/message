@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -29,8 +30,6 @@ const RoomList = (props: Props): JSX.Element => {
   };
 
   const isSelected = (roomId: string): boolean => {
-    console.log(roomId);
-    console.log(props.roomId);
     if (roomId == props.roomId) {
       return true;
     } else {
@@ -42,19 +41,21 @@ const RoomList = (props: Props): JSX.Element => {
     return rooms.map((room, key) => {
       return (
         <React.Fragment key={key}>
-          <ListItem
-            button
-            onClick={() => onClick(room.id)}
-            {...(isSelected(room.id) ? { selected: true } : null)}
-          >
-            <ListItemAvatar>
-              <Avatar></Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={room.name}
-              secondary={room.message}
-            ></ListItemText>
-          </ListItem>
+          <List>
+            <ListItem
+              button
+              onClick={() => onClick(room.id)}
+              {...(isSelected(room.id) ? { selected: true } : null)}
+            >
+              <ListItemAvatar>
+                <Avatar></Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={room.name}
+                secondary={room.message}
+              ></ListItemText>
+            </ListItem>
+          </List>
         </React.Fragment>
       );
     });
