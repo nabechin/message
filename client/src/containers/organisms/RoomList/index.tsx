@@ -7,14 +7,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
 interface Rooms {
-  id: string;
+  id: number;
   name: string;
   message: string;
 }
 
 interface Props {
-  onClick: (roomId: string) => void;
-  roomId: string;
+  onClick: (roomId: number) => void;
+  roomId: number | null;
 }
 const RoomList = (props: Props): JSX.Element => {
   const [rooms, setRooms] = useState<Rooms[]>([]);
@@ -25,11 +25,14 @@ const RoomList = (props: Props): JSX.Element => {
     };
     getRooms();
   }, []);
-  const onClick = (roomId: string) => {
+  const onClick = (roomId: number) => {
     props.onClick(roomId);
   };
 
-  const isSelected = (roomId: string): boolean => {
+  const isSelected = (roomId: number): boolean => {
+    if (!props.roomId) {
+      return false;
+    }
     if (roomId == props.roomId) {
       return true;
     } else {

@@ -1,5 +1,5 @@
 from message.usecase.room import IRoomUsecase
-from message.repository.room import IRoomRepository
+from message.domain.room import IRoomRepository
 from message.presenter.i_room import IRoomPresenter
 
 

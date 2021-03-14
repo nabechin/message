@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -23,17 +24,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const createFriendAndGroup = (section: string): string[] => {
-  if (section === "friends") {
-    return ["yuya", "kioka", "issei", "yuma"];
-  } else {
-    return ["ぶらり車旅", "スノボー", "ラクス"];
-  }
-};
 
 interface FriendListIndex {
   sectionKey: number;
   itemKey: number;
+}
+
+interface Friend {
+  name: string;
 }
 
 interface Props {
@@ -42,9 +40,31 @@ interface Props {
 }
 
 const FriendList = (props: Props): JSX.Element => {
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [groups, setGroups] = useState<[]>([]);
+  useEffect(() => {
+    const getFriends = async () => {
+      const { data } = await axios.get(
+        "http://localhost:5000/users/1/friends",
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setFriends(data);
+    };
+    getFriends();
+  }, []);
+
   const classes = useStyles();
   const onClick = (friendIndex: FriendListIndex) => {
     props.onClick(friendIndex);
+  };
+  const createFriendAndGroup = (section: string): Friend[] => {
+    if (section === "friends") {
+      return friends;
+    } else {
+      return groups;
+    }
   };
   const isSelected = (outerKey: number, innerKey: number): boolean => {
     if (props.friendIndex === null) {
@@ -60,25 +80,25 @@ const FriendList = (props: Props): JSX.Element => {
   };
   return (
     <List className={classes.root} subheader={<li />}>
-      {["groups", "friends"].map((section, outerkey) => (
+      {["groups", "friends"].map((section, outerKey) => (
         <li key={`section-${section}`} className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubHeader>{section}</ListSubHeader>
             {createFriendAndGroup(section).map((item, innerKey) => (
               <ListItem
-                key={`item-${item}`}
+                key={`${outerKey}, ${innerKey}`}
                 button
                 onClick={() =>
-                  onClick({ sectionKey: outerkey, itemKey: innerKey })
+                  onClick({ sectionKey: outerKey, itemKey: innerKey })
                 }
-                {...(isSelected(outerkey, innerKey) && props.friendIndex
+                {...(isSelected(outerKey, innerKey) && props.friendIndex
                   ? { selected: true }
                   : null)}
               >
                 <ListItemAvatar>
                   <Avatar></Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={item}></ListItemText>
+                <ListItemText primary={item.name}></ListItemText>
               </ListItem>
             ))}
           </ul>

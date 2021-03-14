@@ -1,5 +1,5 @@
 from message.usecase.message import IMessageUsecase
-from message.repository.message import IMessageRepository
+from message.domain.message import IMessageRepository
 from message.presenter.i_message import IMessagePresenter
 from message.models.room import Message, Room
 from message.database.database import db

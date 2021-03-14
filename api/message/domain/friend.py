@@ -1,10 +1,10 @@
 from abc import ABCMeta, abstractmethod
 
 
-class IMessageUsecase(metaclass=ABCMeta):
+class IFriendRepository(metaclass=ABCMeta):
     def __init__(self):
         pass
 
     @abstractmethod
-    def get_messages_by_room_id(self, room_id: int):
+    def get_friends(self, user_id: int):
         pass

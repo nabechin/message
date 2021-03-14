@@ -3,9 +3,6 @@ from message.models.room import Message
 
 
 class MessageSerializer(IMessagePresenter):
-    def __init__(self):
-        pass
-
     def serialize_messages(self, messages: list) -> list:
         message_list = []
         for message in messages:

@@ -55,7 +55,7 @@ interface Message {
   content: string;
 }
 interface Props {
-  room_id: string;
+  room_id: number | null;
 }
 
 const Message = (props: Props): JSX.Element => {

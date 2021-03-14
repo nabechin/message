@@ -11,10 +11,13 @@ from message.exceptions import UserNotFoundException
 from message.views.auth import authenticate, identity
 from message.repository.room import DBRoomRepository
 from message.repository.message import DBMessageRepository
+from message.repository.friend import DBFriendRepository
 from message.interactor.room import RoomInteractor
 from message.interactor.message import MessageInteractor
+from message.interactor.friend import FriendInteractor
 from message.presenter.room import RoomSerializer
 from message.presenter.message import MessageSerializer
+from message.presenter.friend import FriendSerializer
 from message.models.room import Message
 
 
@@ -68,3 +71,10 @@ def create_message():
     message_interactor = MessageInteractor(DBMessageRepository(), MessageSerializer())
     message = message_interactor.create_message(message)
     return jsonify(message)
+
+
+@app.route("/users/<user_id>/friends", methods=["GET"])
+def get_friends(user_id: int):
+    friend_interactor = FriendInteractor(DBFriendRepository(), FriendSerializer())
+    friends = friend_interactor.get_friends(user_id)
+    return jsonify(friends)

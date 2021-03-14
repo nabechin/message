@@ -18,10 +18,10 @@ interface FriendListIndex {
 }
 
 const Home = (): JSX.Element => {
-  const [roomId, setRoomId] = useState("1");
+  const [roomId, setRoomId] = useState<number | null>(null);
   const [tabIndex, setTubindex] = useState(0);
   const [friendIndex, setFriendIndex] = useState<FriendListIndex | null>(null);
-  const onClick = (roomId: string) => {
+  const onClick = (roomId: number) => {
     setRoomId(roomId);
   };
   const onFriendClick = (friend: FriendListIndex): void => {
