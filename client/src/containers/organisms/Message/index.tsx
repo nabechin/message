@@ -67,7 +67,6 @@ interface Props {
 const Message = (props: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const [user_id, setUserId] = useState(1);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
