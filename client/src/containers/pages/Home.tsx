@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import FriendList from "../organisms/FriendList";
-
 import RoomList from "../organisms/RoomList";
 import Message from "../organisms/Message";
 import SideBar from "../organisms/SideBar";
 import { styled } from "@material-ui/core/styles";
+import useToken from "../../hooks/useToken";
 
 const GridWithBorder = styled(Grid)({
   borderRight: "1px solid #a6a6a6",
@@ -17,10 +18,27 @@ interface FriendListIndex {
   itemKey: number;
 }
 
+interface User {
+  id: number;
+  name: string;
+}
+
 const Home = (): JSX.Element => {
   const [roomId, setRoomId] = useState<number | null>(null);
   const [tabIndex, setTubindex] = useState(0);
   const [friendIndex, setFriendIndex] = useState<FriendListIndex | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const { token, setToken } = useToken();
+  useEffect(() => {
+    console.log(token);
+    const getUser = async () => {
+      const { data } = await axios.get("http://localhost:5000/user/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser(data);
+    };
+    getUser();
+  }, []);
   const onClick = (roomId: number) => {
     setRoomId(roomId);
   };
@@ -48,7 +66,7 @@ const Home = (): JSX.Element => {
         </GridWithBorder>
         <Divider flexItem={false} />
         <Grid item xs={9}>
-          <Message room_id={roomId}></Message>
+          <Message room_id={roomId} user={user}></Message>
         </Grid>
       </Grid>
     </React.Fragment>

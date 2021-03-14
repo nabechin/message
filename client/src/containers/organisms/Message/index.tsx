@@ -54,8 +54,14 @@ interface Message {
   username: string;
   content: string;
 }
+
+interface User {
+  id: number;
+  name: string;
+}
 interface Props {
   room_id: number | null;
+  user: User | null;
 }
 
 const Message = (props: Props): JSX.Element => {
@@ -84,7 +90,7 @@ const Message = (props: Props): JSX.Element => {
   const onSend = async (): Promise<void> => {
     const { data } = await axios.post("http://localhost:5000/messages", {
       content: message,
-      userid: "1",
+      userid: props?.user?.id,
       roomid: props.room_id,
       headers: { "Content-Type": "application/json" },
     });
@@ -99,7 +105,10 @@ const Message = (props: Props): JSX.Element => {
     });
   };
   const renderMessage = (message: Message): JSX.Element => {
-    if (message.user_id === user_id) {
+    if (!props.user) {
+      return <React.Fragment></React.Fragment>;
+    }
+    if (message.user_id === props.user.id) {
       return <MyMessage key={message.id} {...message}></MyMessage>;
     } else {
       return <OthersMessage key={message.id} {...message}></OthersMessage>;
