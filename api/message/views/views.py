@@ -12,12 +12,15 @@ from message.views.auth import authenticate, identity
 from message.repository.room import DBRoomRepository
 from message.repository.message import DBMessageRepository
 from message.repository.friend import DBFriendRepository
+from message.repository.user import DBUserRepository
 from message.interactor.room import RoomInteractor
 from message.interactor.message import MessageInteractor
 from message.interactor.friend import FriendInteractor
+from message.interactor.user import UserInteractor
 from message.presenter.room import RoomSerializer
 from message.presenter.message import MessageSerializer
 from message.presenter.friend import FriendSerializer
+from message.presenter.user import UserSerializer
 from message.models.room import Message
 
 
@@ -78,3 +81,12 @@ def get_friends(user_id: int):
     friend_interactor = FriendInteractor(DBFriendRepository(), FriendSerializer())
     friends = friend_interactor.get_friends(user_id)
     return jsonify(friends)
+
+
+@app.route("/user/profile", methods=["GET"])
+@jwt_required()
+def get_users_profile():
+    user_email = get_jwt_identity()
+    user_interactor = UserInteractor(DBUserRepository(), UserSerializer())
+    user = user_interactor.get_user_by_email(user_email)
+    return jsonify(user)

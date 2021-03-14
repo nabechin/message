@@ -85,7 +85,7 @@ const Message = (props: Props): JSX.Element => {
     const { data } = await axios.post("http://localhost:5000/messages", {
       content: message,
       userid: "1",
-      roomid: "1",
+      roomid: props.room_id,
       headers: { "Content-Type": "application/json" },
     });
     setMessages((messages) => [...messages, data]);

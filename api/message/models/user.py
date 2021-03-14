@@ -12,6 +12,10 @@ class User(db.Model):
                                    backref=db.backref("user", lazy="joined"))
     messages = db.relationship("Message", lazy="select",
                                backref=db.backref("user", lazy="joined"))
+                               
+    @classmethod
+    def get_user_by_email(cls, email: str):
+        return cls.query.filter_by(email=email).first()
 
 class Friend(db.Model):
     __tablename__ = "friends"
