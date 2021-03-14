@@ -44,7 +44,7 @@ const RoomList = (props: Props): JSX.Element => {
     return rooms.map((room, key) => {
       return (
         <React.Fragment key={key}>
-          <List>
+          <List style={{ padding: 0 }}>
             <ListItem
               button
               onClick={() => onClick(room.id)}
