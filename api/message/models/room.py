@@ -52,6 +52,18 @@ class Message(db.Model):
     def get_messages_by_room_id(cls, room_id: int) -> list:
         return cls.query.filter_by(room_id=room_id).all()
     
+    @classmethod
+    def get_messages_by_me_and_friend_id(cls, user_id: int, friend_id: int) -> list:
+        message_list = []
+        for row in db.session.execute(sql.GET_MESSAGES_BY_ME_AND_FRIEND_ID_QUERY, {"user_id": user_id, "friend_id": friend_id}):
+            message = cls()
+            message.id = row[0]
+            message.user.id = row[1]
+            message.user.name = row[2]
+            message.content = row[3]
+            message_list.append(message_list)
+        return message_list
+        
     def add(self):
         db.session.add(self)
         Room.update_latest_message(self.room_id, self.content)

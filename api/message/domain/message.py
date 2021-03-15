@@ -12,5 +12,9 @@ class IMessageRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def get_get_messages_by_me_and_friend_id(self, user_id:int, friend_id: int):
+        pass
+
+    @abstractmethod
     def create_message(self, message: Message):
         pass
