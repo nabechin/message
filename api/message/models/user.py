@@ -1,4 +1,6 @@
 from message.database.database import db
+from message.dto.friend import FriendGetData
+from message.models import sql
 
 
 class User(db.Model):
@@ -26,6 +28,13 @@ class Friend(db.Model):
     requester = db.relationship("User", foreign_keys=[requester_id])
     receriver = db.relationship("User", foreign_keys=[receiver_id])
 
-    @classmethod
-    def get_friends(cls, user_id: int):
-        return cls.query.filter_by(requester_id=user_id)
+    @staticmethod
+    def get_friends(user_id: int):
+        friend_list = []
+        for row in db.session.execute(sql.GET_FRIENDS_QUERY, {"user_id": user_id}):
+            user_id = row[0]
+            user_name = row[1]
+            room_id = row[2]
+            friend_list.append(FriendGetData(user_id, user_name, room_id))
+        return friend_list
+

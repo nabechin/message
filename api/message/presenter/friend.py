@@ -10,6 +10,7 @@ class FriendSerializer(IFriendPresenter):
         friend_list = []
         for friend in friends:
             friend_list.append({
-                "name": friend.receriver.name
+                "name": friend.get_name(),
+                "roomId": friend.get_room_id()
             })
         return friend_list

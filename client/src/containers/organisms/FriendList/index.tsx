@@ -32,10 +32,12 @@ interface FriendListIndex {
 
 interface Friend {
   name: string;
+  roomId: number;
 }
 
 interface Props {
-  onClick: (param: FriendListIndex) => void;
+  onFriendClick: (param: FriendListIndex) => void;
+  onClick: (room_id: number) => void;
   friendIndex: FriendListIndex | null;
 }
 
@@ -56,8 +58,9 @@ const FriendList = (props: Props): JSX.Element => {
   }, []);
 
   const classes = useStyles();
-  const onClick = (friendIndex: FriendListIndex) => {
-    props.onClick(friendIndex);
+  const onClick = (friendIndex: FriendListIndex, room_id: number) => {
+    props.onClick(room_id);
+    props.onFriendClick(friendIndex);
   };
   const createFriendAndGroup = (section: string): Friend[] => {
     if (section === "friends") {
@@ -89,7 +92,10 @@ const FriendList = (props: Props): JSX.Element => {
                 key={`${outerKey}, ${innerKey}`}
                 button
                 onClick={() =>
-                  onClick({ sectionKey: outerKey, itemKey: innerKey })
+                  onClick(
+                    { sectionKey: outerKey, itemKey: innerKey },
+                    item.roomId
+                  )
                 }
                 {...(isSelected(outerKey, innerKey) && props.friendIndex
                   ? { selected: true }

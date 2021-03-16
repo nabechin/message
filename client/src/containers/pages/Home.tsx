@@ -30,7 +30,6 @@ const Home = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
   const { token, setToken } = useToken();
   useEffect(() => {
-    console.log(token);
     const getUser = async () => {
       const { data } = await axios.get("http://localhost:5000/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
@@ -49,7 +48,8 @@ const Home = (): JSX.Element => {
     if (tabIndex === 0) {
       return (
         <FriendList
-          onClick={onFriendClick}
+          onFriendClick={onFriendClick}
+          onClick={onClick}
           friendIndex={friendIndex}
         ></FriendList>
       );
