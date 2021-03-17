@@ -33,7 +33,7 @@ class Room(db.Model):
     def update_latest_message(cls, id: int, latest_message: str):
         room = cls.query.get(id)
         room.latest_message = latest_message
-        
+        room.updated_at = datetime.now()        
 class Message(db.Model):
     __tablename__ = "messages"
 
@@ -43,10 +43,11 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=False)
 
-    def __init__(self, content: str, user_id: int, room_id: int):
+    def __init__(self, content: str, user_id: int, room_id: int, create_at: datetime):
         self.content = content
         self.user_id = user_id
         self.room_id = room_id
+        self.create_at = create_at
 
     @classmethod 
     def get_messages_by_room_id(cls, room_id: int) -> list:

@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from flask import Flask, jsonify, request
@@ -70,7 +71,7 @@ def create_message():
     content = message_dict["content"]
     user_id = message_dict["userid"]
     room_id = message_dict["roomid"]
-    message = Message(content, int(user_id), int(room_id))
+    message = Message(content, int(user_id), int(room_id), datetime.datetime.now())
     message_interactor = MessageInteractor(DBMessageRepository(), MessageSerializer())
     message = message_interactor.create_message(message)
     return jsonify(message)

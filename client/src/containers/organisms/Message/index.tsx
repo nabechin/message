@@ -14,6 +14,12 @@ const useStyles = makeStyles(() =>
       height: "40px",
       background: "#f2f2f2",
     },
+    groupHeaderFont: {
+      fontSize: "30px",
+      marginLeft: "10px",
+      display: "flex",
+      alignItems: "center",
+    },
     lineBc: {
       padding: "20px 10px",
       maxWidth: "1387px",
@@ -50,9 +56,10 @@ const useStyles = makeStyles(() =>
 
 interface Message {
   id: number;
-  user_id: number;
+  userId: number;
   username: string;
   content: string;
+  createAt: string;
 }
 
 interface User {
@@ -89,10 +96,11 @@ const Message = (props: Props): JSX.Element => {
   const onSend = async (): Promise<void> => {
     const { data } = await axios.post("http://localhost:5000/messages", {
       content: message,
-      userid: props?.user?.id,
+      userid: 1,
       roomid: props.room_id,
       headers: { "Content-Type": "application/json" },
     });
+    console.log(data);
     setMessages((messages) => [...messages, data]);
     scrollToBottom();
     setMessage("");
@@ -104,10 +112,10 @@ const Message = (props: Props): JSX.Element => {
     });
   };
   const renderMessage = (message: Message): JSX.Element => {
-    if (!props.user) {
-      return <React.Fragment></React.Fragment>;
-    }
-    if (message.user_id === props.user.id) {
+    // if (!props.user) {
+    //   return <React.Fragment></React.Fragment>;
+    // }
+    if (message.userId === 1) {
       return <MyMessage key={message.id} {...message}></MyMessage>;
     } else {
       return <OthersMessage key={message.id} {...message}></OthersMessage>;
@@ -116,7 +124,6 @@ const Message = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <div className={classes.groupHeader}>aaa</div>
       <div className={classes.lineBc}>
         {renderMessages()}
         <div ref={messagesEndRef}></div>

@@ -17,7 +17,8 @@ GET_ROOMS_QUERY = ("select "
                     "on "
                         "p2.user_id = u.id "
                     "where "
-                        "p1.user_id <> p2.user_id AND p1.user_id = :user_id;");
+                        "p1.user_id <> p2.user_id AND p1.user_id = :user_id "
+                    "order by r.updated_at desc");
 
 
 GET_FRIENDS_QUERY = ("select "

@@ -46,7 +46,7 @@ const useStyles = makeStyles(() =>
 );
 
 interface Props {
-  user_id: number;
+  userId: number;
   username: string;
   content: string;
 }

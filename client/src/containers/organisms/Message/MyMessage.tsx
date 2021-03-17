@@ -6,6 +6,12 @@ const useStyles = makeStyles(() =>
     mesays: {
       margin: "10px 0",
     },
+    created_at: {
+      position: "relative",
+      top: "7px",
+      marginRight: "5px",
+      color: "#4d4d4d",
+    },
     mycomment: {
       display: "inline-block",
       position: "relative",
@@ -30,9 +36,10 @@ const useStyles = makeStyles(() =>
 );
 
 interface Props {
-  user_id: number;
+  userId: number;
   username: string;
   content: string;
+  createAt: string;
 }
 
 const MyMessage = (props: Props): JSX.Element => {
@@ -42,6 +49,7 @@ const MyMessage = (props: Props): JSX.Element => {
     <div>
       {" "}
       <div className={classes.mesays}>
+        <span className={classes.created_at}>{props.createAt}</span>
         <p className={classes.mycomment}>{props.content}</p>
       </div>
     </div>
