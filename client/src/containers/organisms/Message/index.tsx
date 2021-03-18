@@ -4,6 +4,7 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import MyMessage from "./MyMessage";
 import OthersMessage from "./OthersMessage";
 import SendIcon from "@material-ui/icons/Send";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -40,6 +41,16 @@ const useStyles = makeStyles(() =>
     },
     messageOptionItem: {
       marginRight: "10px",
+      display: "flex",
+    },
+    fileIcon: {
+      marginRight: "10px",
+    },
+    pointer: {
+      cursor: "pointer",
+    },
+    fileInput: {
+      display: "none",
     },
     textarea: {
       resize: "none",
@@ -74,6 +85,7 @@ interface Props {
 const Message = (props: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -105,6 +117,11 @@ const Message = (props: Props): JSX.Element => {
     scrollToBottom();
     setMessage("");
   };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
 
   const renderMessages = () => {
     return messages.map((message) => {
@@ -131,9 +148,22 @@ const Message = (props: Props): JSX.Element => {
       <div className={classes.messagePallet}>
         <div className={classes.messageOptionContainer}>
           <div className={classes.messageOptionItem}>
-            <a onClick={() => onSend()}>
-              <SendIcon></SendIcon>
-            </a>
+            <div className={classes.fileIcon}>
+              <label htmlFor="file-input">
+                <AttachFileIcon className={classes.pointer}></AttachFileIcon>
+              </label>
+              <input
+                type="file"
+                onChange={handleChange}
+                id="file-input"
+                className={classes.fileInput}
+              ></input>
+            </div>
+            <div>
+              <a onClick={() => onSend()}>
+                <SendIcon className={classes.pointer}></SendIcon>
+              </a>
+            </div>
           </div>
         </div>
         <div className={classes.message}>
