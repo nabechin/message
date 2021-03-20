@@ -1,23 +1,27 @@
+import os
 import datetime
 import logging
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
+from werkzeug.utils import secure_filename
 
 import message.models
 
 from message.database.database import init_db
 from message.exceptions import UserNotFoundException
 from message.views.auth import authenticate, identity
-from message.repository.room import DBRoomRepository
-from message.repository.message import DBMessageRepository
 from message.repository.friend import DBFriendRepository
+from message.repository.image import LocalStorage
+from message.repository.message import DBMessageRepository
+from message.repository.room import DBRoomRepository
 from message.repository.user import DBUserRepository
 from message.interactor.room import RoomInteractor
 from message.interactor.message import MessageInteractor
 from message.interactor.friend import FriendInteractor
 from message.interactor.user import UserInteractor
+from message.interactor.image import ImageInteractor
 from message.presenter.room import RoomSerializer
 from message.presenter.message import MessageSerializer
 from message.presenter.friend import FriendSerializer
@@ -71,10 +75,30 @@ def create_message():
     content = message_dict["content"]
     user_id = message_dict["userid"]
     room_id = message_dict["roomid"]
-    message = Message(content, int(user_id), int(room_id), datetime.datetime.now())
+    message = Message(content, int(user_id), int(room_id), datetime.datetime.now(), 0, "")
     message_interactor = MessageInteractor(DBMessageRepository(), MessageSerializer())
     message = message_interactor.create_message(message)
     return jsonify(message)
+
+
+@app.route("/images", methods=["POST"])
+def create_image():
+    logger.info(os.getcwd())
+    user_id = request.form["userId"]
+    room_id = request.form["roomId"]
+    image = request.files["file"]
+    if image.filename == "":
+        raise FileNotFoundError
+    filename = secure_filename(image.filename)
+    message = Message("", int(user_id), int(room_id), datetime.datetime.now(), 1, filename)
+    image_interactor = ImageInteractor(DBMessageRepository(), LocalStorage(), MessageSerializer())
+    message = image_interactor.create_image(message, image, filename)
+    return jsonify(message)
+
+    
+@app.route("/images/<filename>", methods=["GET"])
+def get_image(filename: str):
+    return send_from_directory(os.getcwd() + "/static/media/", filename)
 
 
 @app.route("/users/<user_id>/friends", methods=["GET"])

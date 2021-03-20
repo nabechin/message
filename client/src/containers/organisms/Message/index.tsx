@@ -70,6 +70,8 @@ interface Message {
   userId: number;
   username: string;
   content: string;
+  image: string;
+  contentType: number;
   createAt: string;
 }
 
@@ -85,7 +87,6 @@ interface Props {
 const Message = (props: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const [file, setFile] = useState<File | null>(null);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -112,14 +113,25 @@ const Message = (props: Props): JSX.Element => {
       roomid: props.room_id,
       headers: { "Content-Type": "application/json" },
     });
-    console.log(data);
     setMessages((messages) => [...messages, data]);
     scrollToBottom();
     setMessage("");
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+      const formData = new FormData();
+      formData.append("userId", "1");
+      formData.append("roomId", String(props.room_id));
+      formData.append("file", e.target.files[0]);
+      const { data } = await axios.post(
+        "http://localhost:5000/images",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      setMessages((messages) => [...messages, data]);
+      scrollToBottom();
     }
   };
 

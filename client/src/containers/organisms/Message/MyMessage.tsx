@@ -39,18 +39,34 @@ interface Props {
   userId: number;
   username: string;
   content: string;
+  image: string;
+  contentType: number;
   createAt: string;
 }
 
 const MyMessage = (props: Props): JSX.Element => {
   const classes = useStyles();
 
+  const renderContent = (): JSX.Element => {
+    if (props.contentType === 0) {
+      return <p className={classes.mycomment}>{props.content}</p>;
+    } else if (props.contentType === 1) {
+      return (
+        <img
+          src={`http://localhost:5000/images/${props.image}`}
+          style={{ width: "100px", height: "100px" }}
+        ></img>
+      );
+    }
+    return <div>aaa</div>;
+  };
+
   return (
     <div>
       {" "}
       <div className={classes.mesays}>
         <span className={classes.created_at}>{props.createAt}</span>
-        <p className={classes.mycomment}>{props.content}</p>
+        {renderContent()}
       </div>
     </div>
   );

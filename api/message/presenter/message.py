@@ -13,15 +13,20 @@ class MessageSerializer(IMessagePresenter):
                 "userId": message.user.id,
                 "username": message.user.name,
                 "content": message.content,
+                "image": message.image,
+                "contentType": message.content_type,
                 "createAt": message.create_at.strftime("%H:%M")
             })
         return message_list
 
     def serialize_message(self, message: Message) -> dict:
         message_dict = {
+            "id": message.id,
             "userId": message.user.id,
             "username": message.user.name,
             "content": message.content,
+            "image": message.image,
+            "contentType": message.content_type,
             "createAt": message.create_at.strftime("%H:%M")
         }
         return message_dict

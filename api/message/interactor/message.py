@@ -22,4 +22,3 @@ class MessageInteractor(IMessageUsecase):
         except Exception as e:
             db.session.rollback()
             raise e
-

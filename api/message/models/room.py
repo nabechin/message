@@ -42,12 +42,17 @@ class Message(db.Model):
     create_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=False)
+    content_type = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.String(255), nullable=False, default="")
 
-    def __init__(self, content: str, user_id: int, room_id: int, create_at: datetime):
+
+    def __init__(self, content: str, user_id: int, room_id: int, create_at: datetime, content_type: int, image: str):
         self.content = content
         self.user_id = user_id
         self.room_id = room_id
         self.create_at = create_at
+        self.content_type = content_type
+        self.image = image
 
     @classmethod 
     def get_messages_by_room_id(cls, room_id: int) -> list:
