@@ -57,8 +57,9 @@ const MyMessage = (props: Props): JSX.Element => {
           style={{ width: "100px", height: "100px" }}
         ></img>
       );
+    } else {
+      return <></>;
     }
-    return <div>aaa</div>;
   };
 
   return (
