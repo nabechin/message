@@ -1,4 +1,6 @@
 from message.usecase.room import IRoomUsecase
+from message.database.database import db
+from message.dto.room import CraeteRoom
 from message.domain.room import IRoomRepository
 from message.presenter.i_room import IRoomPresenter
 
@@ -12,3 +14,7 @@ class RoomInteractor(IRoomUsecase):
     def get_rooms_by_user_id(self, user_id: int):
         rooms = self.__room_repository.get_rooms_by_user_id(user_id)
         return self.__room_presenter.console(rooms)
+
+    def create_room(self, create_room: CraeteRoom):
+        self.__room_repository.create_room(create_room)
+        db.session.commit()

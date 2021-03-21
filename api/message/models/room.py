@@ -33,7 +33,11 @@ class Room(db.Model):
     def update_latest_message(cls, id: int, latest_message: str):
         room = cls.query.get(id)
         room.latest_message = latest_message
-        room.updated_at = datetime.now()        
+        room.updated_at = datetime.now()
+
+    def add(self):
+        db.session.add(self)
+
 class Message(db.Model):
     __tablename__ = "messages"
 
@@ -75,3 +79,6 @@ class Participant(db.Model):
     @classmethod
     def get_participants_by_user_id(cls, user_id: int):
         return cls.query.filter_by(user_id=user_id).all()
+
+    def add(self):
+        db.session.add(self)
