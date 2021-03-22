@@ -16,16 +16,26 @@ interface User {
   name: string;
 }
 
+interface FriendShip {
+  user_id: number;
+  friend_id: number;
+}
+
 interface Props {
   room_id: number | null;
   user: User | null;
+  onCreateTalkClick: () => void;
 }
 
 const Message = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {props.room_id ? <MessageRoom {...props} /> : <CreateRoom />}
+      {props.room_id ? (
+        <MessageRoom {...props} />
+      ) : (
+        <CreateRoom onCreateTalkClick={props.onCreateTalkClick} />
+      )}
     </div>
   );
 };

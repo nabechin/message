@@ -20,11 +20,22 @@ const CreateRoomButton = styled(Button)({
   fontSize: "20px",
 });
 
-const CreateRoom = (): JSX.Element => {
+interface FriendShip {
+  user_id: number;
+  friend_id: number;
+}
+
+interface Props {
+  onCreateTalkClick: () => void;
+}
+
+const CreateRoom = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <CreateRoomButton variant="contained">talk</CreateRoomButton>
+      <CreateRoomButton onClick={props.onCreateTalkClick} variant="contained">
+        talk
+      </CreateRoomButton>
     </div>
   );
 };

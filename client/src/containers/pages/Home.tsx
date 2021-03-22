@@ -14,6 +14,7 @@ const GridWithBorder = styled(Grid)({
 });
 
 interface FriendListIndex {
+  friendId: number;
   sectionKey: number;
   itemKey: number;
 }
@@ -21,6 +22,11 @@ interface FriendListIndex {
 interface User {
   id: number;
   name: string;
+}
+
+interface FriendShip {
+  user_id: number;
+  friend_id: number;
 }
 
 const Home = (): JSX.Element => {
@@ -38,23 +44,36 @@ const Home = (): JSX.Element => {
     };
     getUser();
   }, []);
-  const onClick = (roomId: number) => {
+  const handleClick = (roomId: number) => {
     setRoomId(roomId);
   };
-  const onFriendClick = (friend: FriendListIndex): void => {
+  const handleFriendClick = (friend: FriendListIndex): void => {
     setFriendIndex(friend);
+  };
+  const handleCreateTalkClick = (): void => {
+    const createRoom = async () => {
+      const { data } = await axios.post("http://localhost:5000/rooms", {
+        createrId: 1,
+        friendId: friendIndex?.friendId,
+        headers: { "Content-Type": "application/json" },
+      });
+      setRoomId(data.roomId);
+      // TODO friendListの中から作成したroomのfriendIDよりfriendsからfriendを特定
+      // そのpropertyであるroomidを更新する.
+    };
+    createRoom();
   };
   const renderMenuList = (): JSX.Element => {
     if (tabIndex === 0) {
       return (
         <FriendList
-          onFriendClick={onFriendClick}
-          onClick={onClick}
+          onFriendClick={handleFriendClick}
+          onClick={handleClick}
           friendIndex={friendIndex}
         ></FriendList>
       );
     } else {
-      return <RoomList onClick={onClick} roomId={roomId}></RoomList>;
+      return <RoomList onClick={handleClick} roomId={roomId}></RoomList>;
     }
   };
   return (
@@ -66,7 +85,11 @@ const Home = (): JSX.Element => {
         </GridWithBorder>
         <Divider flexItem={false} />
         <Grid item xs={9}>
-          <Message room_id={roomId} user={user}></Message>
+          <Message
+            room_id={roomId}
+            user={user}
+            onCreateTalkClick={handleCreateTalkClick}
+          ></Message>
         </Grid>
       </Grid>
     </React.Fragment>

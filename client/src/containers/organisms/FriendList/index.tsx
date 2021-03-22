@@ -26,11 +26,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface FriendListIndex {
+  friendId: number;
   sectionKey: number;
   itemKey: number;
 }
 
 interface Friend {
+  friendId: number;
   name: string;
   roomId: number;
 }
@@ -93,7 +95,12 @@ const FriendList = (props: Props): JSX.Element => {
                 button
                 onClick={() =>
                   onClick(
-                    { sectionKey: outerKey, itemKey: innerKey },
+                    // TODO have to change value to variable
+                    {
+                      friendId: item.friendId,
+                      sectionKey: outerKey,
+                      itemKey: innerKey,
+                    },
                     item.roomId
                   )
                 }

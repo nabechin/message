@@ -16,5 +16,5 @@ class RoomSerializer(IRoomPresenter):
             
     def serialize_room(self, create_room: CreatedRoom):
         return {
-            "id": create_room.get_room_id(),
+            "roomId": create_room.get_room_id(),
         }

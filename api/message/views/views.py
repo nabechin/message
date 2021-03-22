@@ -65,8 +65,8 @@ def get_rooms(user_id: int):
 @app.route("/rooms", methods=["POST"])
 def create_room():
     room = request.get_json()
-    creater_id = room["creater_id"]
-    friend_id = room["friend_id"]
+    creater_id = room["createrId"]
+    friend_id = room["friendId"]
     create_room = CreateRoom(0, creater_id, friend_id)
     room_interactor = RoomInteractor(DBRoomRepository(), RoomSerializer())
     created_room = room_interactor.create_room(create_room)
