@@ -10,5 +10,5 @@ class IRoomRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def create_room(self, create_room: CreateRoom)
+    def create_room(self, create_room: CreateRoom):
         pass

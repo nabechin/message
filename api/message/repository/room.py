@@ -1,7 +1,7 @@
 from message.models.room import Room, Participant
 from message.domain.room import IRoomRepository
-from message.dto.room import CreateRoom
-
+from message.dto.room import CreateRoom, CreatedRoom
+from message.database.database import db
 
 
 class DBRoomRepository(IRoomRepository):
@@ -17,10 +17,12 @@ class DBRoomRepository(IRoomRepository):
         room.add()
         db.session.flush()
         participant = Participant()
-        participant.user_id = craete_room.get_creater_id()
+        participant.user_id = create_room.get_creater_id()
         participant.room_id = room.id
         participant.add()
         participant = Participant()
         participant.user_id = create_room.get_friend_id()
         participant.room_id = room.id
         participant.add()
+        created_room = CreatedRoom(room.id)
+        return created_room

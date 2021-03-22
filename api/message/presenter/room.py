@@ -1,9 +1,10 @@
 from message.presenter.i_room import IRoomPresenter
+from message.dto.room import CreatedRoom
 
 
 class RoomSerializer(IRoomPresenter):
     
-    def console(self, rooms):
+    def serialize_rooms(self, rooms):
         room_list = []
         for room in rooms:
             room_list.append({
@@ -13,3 +14,7 @@ class RoomSerializer(IRoomPresenter):
             })
         return room_list
             
+    def serialize_room(self, create_room: CreatedRoom):
+        return {
+            "id": create_room.get_room_id(),
+        }

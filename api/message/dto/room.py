@@ -12,3 +12,11 @@ class CreateRoom:
 
     def get_friend_id(self):
         return self.__friend_id
+
+    
+class CreatedRoom:
+    def __init__(self, room_id: int):
+        self.__room_id = room_id
+
+    def get_room_id(self):
+        return self.__room_id

@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 import message.models
 
 from message.database.database import init_db
+from message.dto.room import CreateRoom
 from message.exceptions import UserNotFoundException
 from message.views.auth import authenticate, identity
 from message.repository.friend import DBFriendRepository
@@ -54,11 +55,22 @@ def login():
 
 
 @app.route("/rooms/<user_id>", methods=["GET"])
-def get_groups(user_id: int):
+def get_rooms(user_id: int):
     room_interactor = RoomInteractor(DBRoomRepository(), RoomSerializer())
     rooms = room_interactor.get_rooms_by_user_id(user_id)
     logger.info(rooms)
     return jsonify(rooms)
+
+
+@app.route("/rooms", methods=["POST"])
+def create_room():
+    room = request.get_json()
+    creater_id = room["creater_id"]
+    friend_id = room["friend_id"]
+    create_room = CreateRoom(0, creater_id, friend_id)
+    room_interactor = RoomInteractor(DBRoomRepository(), RoomSerializer())
+    created_room = room_interactor.create_room(create_room)
+    return jsonify(created_room)
 
 
 @app.route("/messages/<room_id>", methods=["GET"])
