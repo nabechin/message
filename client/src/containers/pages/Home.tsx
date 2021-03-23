@@ -60,6 +60,9 @@ const Home = (): JSX.Element => {
       setRoomId(data.roomId);
       // TODO friendListの中から作成したroomのfriendIDよりfriendsからfriendを特定
       // そのpropertyであるroomidを更新する.
+      // FriendList内のfriendsをこっちに引っ越す必要が出てきそう。
+      // 理由は、特定のfriendを更新するトリガーが子コンポーネントに存在しない。
+      // あくまでも、トリガーは非同期によってroomが作られる時
     };
     createRoom();
   };
