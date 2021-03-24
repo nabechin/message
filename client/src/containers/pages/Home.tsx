@@ -28,9 +28,15 @@ interface FriendShip {
   user_id: number;
   friend_id: number;
 }
+interface Friend {
+  friendId: number;
+  name: string;
+  roomId: number;
+}
 
 const Home = (): JSX.Element => {
   const [roomId, setRoomId] = useState<number | null>(null);
+  const [friends, setFriends] = useState<Friend[]>([]);
   const [tabIndex, setTubindex] = useState(0);
   const [friendIndex, setFriendIndex] = useState<FriendListIndex | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -58,11 +64,11 @@ const Home = (): JSX.Element => {
         headers: { "Content-Type": "application/json" },
       });
       setRoomId(data.roomId);
-      // TODO friendListの中から作成したroomのfriendIDよりfriendsからfriendを特定
-      // そのpropertyであるroomidを更新する.
-      // FriendList内のfriendsをこっちに引っ越す必要が出てきそう。
-      // 理由は、特定のfriendを更新するトリガーが子コンポーネントに存在しない。
-      // あくまでも、トリガーは非同期によってroomが作られる時
+      friends.map((friend) => {
+        if (friend.friendId == friendIndex?.friendId) {
+          friend.roomId = data.roomId;
+        }
+      });
     };
     createRoom();
   };
@@ -73,6 +79,8 @@ const Home = (): JSX.Element => {
           onFriendClick={handleFriendClick}
           onClick={handleClick}
           friendIndex={friendIndex}
+          friends={friends}
+          setFriends={setFriends}
         ></FriendList>
       );
     } else {

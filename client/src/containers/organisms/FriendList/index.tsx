@@ -41,10 +41,11 @@ interface Props {
   onFriendClick: (param: FriendListIndex) => void;
   onClick: (room_id: number) => void;
   friendIndex: FriendListIndex | null;
+  friends: Friend[];
+  setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
 }
 
 const FriendList = (props: Props): JSX.Element => {
-  const [friends, setFriends] = useState<Friend[]>([]);
   const [groups, setGroups] = useState<[]>([]);
   useEffect(() => {
     const getFriends = async () => {
@@ -54,7 +55,7 @@ const FriendList = (props: Props): JSX.Element => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      setFriends(data);
+      props.setFriends(data);
     };
     getFriends();
   }, []);
@@ -66,7 +67,7 @@ const FriendList = (props: Props): JSX.Element => {
   };
   const createFriendAndGroup = (section: string): Friend[] => {
     if (section === "friends") {
-      return friends;
+      return props.friends;
     } else {
       return groups;
     }

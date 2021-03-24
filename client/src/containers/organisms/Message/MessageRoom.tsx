@@ -189,7 +189,6 @@ const MessageRoom = (props: Props): JSX.Element => {
           ></textarea>
         </div>
       </div>
-      ;
     </>
   );
 };
