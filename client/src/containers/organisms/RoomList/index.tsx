@@ -5,6 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import useAuth from "../../../hooks/useAuth";
 
 interface Rooms {
   id: number;
@@ -18,9 +19,12 @@ interface Props {
 }
 const RoomList = (props: Props): JSX.Element => {
   const [rooms, setRooms] = useState<Rooms[]>([]);
+  const { auth, setAuth } = useAuth();
   useEffect(() => {
     const getRooms = async () => {
-      const { data } = await axios.get("http://localhost:5000/rooms/1");
+      const { data } = await axios.get(
+        `http://localhost:5000/users/${auth.userId}/rooms`
+      );
       setRooms(data);
     };
     getRooms();

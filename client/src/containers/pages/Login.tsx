@@ -20,8 +20,13 @@ export interface Credential {
   password: string;
 }
 
+interface Auth {
+  userId: number;
+  accessToken: string;
+}
+
 interface Props {
-  setToken: (param: { access_token: string }) => void;
+  setAuth: (auth: Auth) => void;
 }
 
 const Login = (props: Props): JSX.Element => {
@@ -31,7 +36,7 @@ const Login = (props: Props): JSX.Element => {
       password: credential.password,
       headers: { "Content-Type": "application/json" },
     });
-    props.setToken(data);
+    props.setAuth(data);
   };
   const classes = useStyles();
   return (

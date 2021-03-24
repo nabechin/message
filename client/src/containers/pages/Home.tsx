@@ -7,7 +7,7 @@ import RoomList from "../organisms/RoomList";
 import Message from "../organisms/Message";
 import SideBar from "../organisms/SideBar";
 import { styled } from "@material-ui/core/styles";
-import useToken from "../../hooks/useToken";
+import useAuth from "../../hooks/useAuth";
 
 const GridWithBorder = styled(Grid)({
   borderRight: "1px solid #a6a6a6",
@@ -40,11 +40,11 @@ const Home = (): JSX.Element => {
   const [tabIndex, setTubindex] = useState(0);
   const [friendIndex, setFriendIndex] = useState<FriendListIndex | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const { token, setToken } = useToken();
+  const { auth, setAuth } = useAuth();
   useEffect(() => {
     const getUser = async () => {
       const { data } = await axios.get("http://localhost:5000/user/profile", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
       setUser(data);
     };
@@ -59,7 +59,7 @@ const Home = (): JSX.Element => {
   const handleCreateTalkClick = (): void => {
     const createRoom = async () => {
       const { data } = await axios.post("http://localhost:5000/rooms", {
-        createrId: 1,
+        createrId: auth.userId,
         friendId: friendIndex?.friendId,
         headers: { "Content-Type": "application/json" },
       });

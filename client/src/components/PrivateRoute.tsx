@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "../containers/pages/Login";
 import { Route } from "react-router-dom";
-import useToken from "../hooks/useToken";
+import useAuth from "../hooks/useAuth";
 
 interface Props {
   exact?: boolean;
@@ -10,9 +10,9 @@ interface Props {
 }
 
 const PrivateRoute = ({ component: Component }: Props): JSX.Element => {
-  const { token, setToken } = useToken();
-  if (!token) {
-    return <Login setToken={setToken}></Login>;
+  const { auth, setAuth } = useAuth();
+  if (!auth) {
+    return <Login setAuth={setAuth}></Login>;
   }
   return (
     <React.Fragment>

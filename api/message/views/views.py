@@ -47,14 +47,17 @@ def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     try:
-        authenticate(email, password)
+        user = authenticate(email, password)
     except UserNotFoundException as e:
         return jsonify({"message": "usernotfound"}), 401
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+    payload = {
+        "userId": user.id,
+        "accessToken": create_access_token(identity=email)
+    }
+    return jsonify(payload)
 
 
-@app.route("/rooms/<user_id>", methods=["GET"])
+@app.route("/users/<user_id>/rooms", methods=["GET"])
 def get_rooms(user_id: int):
     room_interactor = RoomInteractor(DBRoomRepository(), RoomSerializer())
     rooms = room_interactor.get_rooms_by_user_id(user_id)

@@ -5,6 +5,7 @@ import AttachFileIcon from "@material-ui/icons/AttachFile";
 import MyMessage from "./MyMessage";
 import OthersMessage from "./OthersMessage";
 import SendIcon from "@material-ui/icons/Send";
+import useAuth from "../../../hooks/useAuth";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -89,6 +90,7 @@ const MessageRoom = (props: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const { auth, setAuth } = useAuth();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -111,7 +113,7 @@ const MessageRoom = (props: Props): JSX.Element => {
   const onSend = async (): Promise<void> => {
     const { data } = await axios.post("http://localhost:5000/messages", {
       content: message,
-      userid: 1,
+      userid: auth.userId,
       roomid: props.room_id,
       headers: { "Content-Type": "application/json" },
     });
@@ -148,7 +150,7 @@ const MessageRoom = (props: Props): JSX.Element => {
     // if (!props.user) {
     //   return <React.Fragment></React.Fragment>;
     // }
-    if (message.userId === 1) {
+    if (message.userId === auth.userId) {
       return <MyMessage key={message.id} {...message}></MyMessage>;
     } else {
       return <OthersMessage key={message.id} {...message}></OthersMessage>;

@@ -7,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSubHeader from "@material-ui/core/ListSubheader";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import useAuth from "../../../hooks/useAuth";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,10 +48,11 @@ interface Props {
 
 const FriendList = (props: Props): JSX.Element => {
   const [groups, setGroups] = useState<[]>([]);
+  const { auth, setAuth } = useAuth();
   useEffect(() => {
     const getFriends = async () => {
       const { data } = await axios.get(
-        "http://localhost:5000/users/1/friends",
+        `http://localhost:5000/users/${auth.userId}/friends`,
         {
           headers: { "Content-Type": "application/json" },
         }
