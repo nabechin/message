@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
+import { axiosInstance } from "../../api";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import FriendList from "../organisms/FriendList";
@@ -24,10 +24,6 @@ interface User {
   name: string;
 }
 
-interface FriendShip {
-  user_id: number;
-  friend_id: number;
-}
 interface Friend {
   friendId: number;
   name: string;
@@ -43,7 +39,7 @@ const Home = (): JSX.Element => {
   const { auth, setAuth } = useAuth();
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await axios.get("http://localhost:5000/user/profile", {
+      const { data } = await axiosInstance.get("/user/profile", {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
       setUser(data);
@@ -56,9 +52,12 @@ const Home = (): JSX.Element => {
   const handleFriendClick = (friend: FriendListIndex): void => {
     setFriendIndex(friend);
   };
-  const handleCreateTalkClick = (): void => {
+
+  // sidebarをクリックしても、Messageコンポーネントは再レンダリングする必要がない
+  // useCallbackとReact.Memoを使うことで、Messageの再レンダリングを抑止している。
+  const handleCreateTalkClick = useCallback(() => {
     const createRoom = async () => {
-      const { data } = await axios.post("http://localhost:5000/rooms", {
+      const { data } = await axiosInstance.post("/rooms", {
         createrId: auth.userId,
         friendId: friendIndex?.friendId,
         headers: { "Content-Type": "application/json" },
@@ -71,7 +70,7 @@ const Home = (): JSX.Element => {
       });
     };
     createRoom();
-  };
+  }, []);
   const renderMenuList = (): JSX.Element => {
     if (tabIndex === 0) {
       return (

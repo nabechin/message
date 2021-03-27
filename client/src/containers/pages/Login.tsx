@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import { axiosInstance } from "../../api";
 import Container from "@material-ui/core/Container";
 import LoginForm from "../organisms/LoginForm";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
@@ -31,7 +31,7 @@ interface Props {
 
 const Login = (props: Props): JSX.Element => {
   const loginUser = async (credential: Credential) => {
-    const { data } = await axios.post("http://localhost:5000/login", {
+    const { data } = await axiosInstance.post("/login", {
       email: credential.email,
       password: credential.password,
       headers: { "Content-Type": "application/json" },

@@ -16,11 +16,6 @@ interface User {
   name: string;
 }
 
-interface FriendShip {
-  user_id: number;
-  friend_id: number;
-}
-
 interface Props {
   room_id: number | null;
   user: User | null;
@@ -40,4 +35,4 @@ const Message = (props: Props): JSX.Element => {
   );
 };
 
-export default Message;
+export default React.memo(Message);

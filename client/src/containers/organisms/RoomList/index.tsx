@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../../api";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -22,9 +22,7 @@ const RoomList = (props: Props): JSX.Element => {
   const { auth, setAuth } = useAuth();
   useEffect(() => {
     const getRooms = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/users/${auth.userId}/rooms`
-      );
+      const { data } = await axiosInstance.get(`/users/${auth.userId}/rooms`);
       setRooms(data);
     };
     getRooms();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../../api";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -51,8 +51,8 @@ const FriendList = (props: Props): JSX.Element => {
   const { auth, setAuth } = useAuth();
   useEffect(() => {
     const getFriends = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/users/${auth.userId}/friends`,
+      const { data } = await axiosInstance.get(
+        `/users/${auth.userId}/friends`,
         {
           headers: { "Content-Type": "application/json" },
         }

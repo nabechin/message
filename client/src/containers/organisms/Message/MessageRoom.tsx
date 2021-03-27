@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../../api";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import MyMessage from "./MyMessage";
@@ -101,9 +101,7 @@ const MessageRoom = (props: Props): JSX.Element => {
 
   useEffect(() => {
     const getMessages = async (): Promise<void> => {
-      const { data } = await axios.get(
-        `http://localhost:5000/messages/${props.room_id}`
-      );
+      const { data } = await axiosInstance.get(`/messages/${props.room_id}`);
       setMessages(data);
       scrollToBottom();
     };
@@ -111,7 +109,7 @@ const MessageRoom = (props: Props): JSX.Element => {
   }, [props.room_id]);
 
   const onSend = async (): Promise<void> => {
-    const { data } = await axios.post("http://localhost:5000/messages", {
+    const { data } = await axiosInstance.post("/messages", {
       content: message,
       userid: auth.userId,
       roomid: props.room_id,
@@ -128,13 +126,9 @@ const MessageRoom = (props: Props): JSX.Element => {
       formData.append("userId", "1");
       formData.append("roomId", String(props.room_id));
       formData.append("file", e.target.files[0]);
-      const { data } = await axios.post(
-        "http://localhost:5000/images",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const { data } = await axiosInstance.post("/images", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setMessages((messages) => [...messages, data]);
       scrollToBottom();
     }
@@ -147,9 +141,6 @@ const MessageRoom = (props: Props): JSX.Element => {
   };
 
   const renderMessage = (message: Message): JSX.Element => {
-    // if (!props.user) {
-    //   return <React.Fragment></React.Fragment>;
-    // }
     if (message.userId === auth.userId) {
       return <MyMessage key={message.id} {...message}></MyMessage>;
     } else {
