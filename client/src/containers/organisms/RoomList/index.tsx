@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../../api";
+import io from "socket.io-client";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -13,6 +14,8 @@ interface Rooms {
   message: string;
 }
 
+const socket = io("http://localhost:5000");
+
 interface Props {
   onClick: (roomId: number) => void;
   roomId: number | null;
@@ -20,6 +23,7 @@ interface Props {
 const RoomList = (props: Props): JSX.Element => {
   const [rooms, setRooms] = useState<Rooms[]>([]);
   const { auth, setAuth } = useAuth();
+
   useEffect(() => {
     const getRooms = async () => {
       const { data } = await axiosInstance.get(`/users/${auth.userId}/rooms`);
