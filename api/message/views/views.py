@@ -5,6 +5,7 @@ import logging
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
+from flask_socketio import SocketIO, emit, join_room
 from werkzeug.utils import secure_filename
 
 import message.models
@@ -36,6 +37,7 @@ app.config['SECRET_KEY'] = "eafwufhafeaefaergfarf"
 app.config['CORS_HEADERS'] = ["Content-Type", "Authorization"]
 
 init_db(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
 jwt = JWTManager(app)
 
@@ -55,6 +57,19 @@ def login():
         "accessToken": create_access_token(identity=email)
     }
     return jsonify(payload)
+
+
+@socketio.on('connect', namespace="/chat")
+def on_connect():
+    emit("connect", {"msg": "connected"})
+
+
+@socketio.on("join", namespace="/chat")
+def join_room(data):
+    logger.info(f"joined!!!{data}")
+    room_id = data.get('room')
+    join_room(room_id)
+    emit("status", {"msg": "joined room"}, room=room_id)
 
 
 @app.route("/users/<user_id>/rooms", methods=["GET"])

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { axiosInstance } from "../../../api";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
+import io from "socket.io-client";
 import MyMessage from "./MyMessage";
 import OthersMessage from "./OthersMessage";
 import SendIcon from "@material-ui/icons/Send";
@@ -105,7 +106,20 @@ const MessageRoom = (props: Props): JSX.Element => {
       setMessages(data);
       scrollToBottom();
     };
+    const socket = io.connect("http://localhost:5000/chat");
+    socket.on("connect", function (data: { msg: string }) {
+      socket.emit("join", { room: props.room_id });
+    });
+    socket.on("status", function (data: { msg: string }) {
+      console.log("joined");
+      console.log(data.msg);
+    });
     getMessages();
+    return () => {
+      socket.emit("leave", { room: props.room_id }, function () {
+        socket.disconnect();
+      });
+    };
   }, [props.room_id]);
 
   const onSend = async (): Promise<void> => {
