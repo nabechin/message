@@ -6,4 +6,4 @@ logging.config.fileConfig('message/log/logging.ini', disable_existing_loggers=Fa
 
 
 if __name__ == "__main__":
-    socketio.run(app)
+    socketio.run(app, debug=True)

@@ -61,15 +61,15 @@ def login():
 
 @socketio.on('connect', namespace="/chat")
 def on_connect():
-    emit("connect", {"msg": "connected"})
+    print('user connected')
+    emit("status", {"data": "Connected!!!!!"})
 
 
 @socketio.on("join", namespace="/chat")
-def join_room(data):
-    logger.info(f"joined!!!{data}")
-    room_id = data.get('room')
-    join_room(room_id)
-    emit("status", {"msg": "joined room"}, room=room_id)
+def on_join(room):
+    logger.info(f"joined!!!{room}")
+    join_room(room["room"])
+    emit("status", {"msg": "joined room"}, room=room["room"])
 
 
 @app.route("/users/<user_id>/rooms", methods=["GET"])

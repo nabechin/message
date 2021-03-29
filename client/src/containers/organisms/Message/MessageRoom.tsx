@@ -87,6 +87,7 @@ interface Props {
 }
 
 const MessageRoom = (props: Props): JSX.Element => {
+  const socket = io.connect("http://localhost:5000/chat");
   const classes = useStyles();
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
@@ -100,20 +101,25 @@ const MessageRoom = (props: Props): JSX.Element => {
     });
   };
 
+  const createRoom = () => {
+    socket.emit("join", { room: props.room_id });
+  };
+
   useEffect(() => {
+    console.log("rendering");
     const getMessages = async (): Promise<void> => {
       const { data } = await axiosInstance.get(`/messages/${props.room_id}`);
       setMessages(data);
       scrollToBottom();
     };
-    const socket = io.connect("http://localhost:5000/chat");
+
     socket.on("connect", function (data: { msg: string }) {
-      socket.emit("join", { room: props.room_id });
+      console.log("connected!!!!");
     });
-    socket.on("status", function (data: { msg: string }) {
-      console.log("joined");
-      console.log(data.msg);
+    socket.on("status", function (status: { data: string }) {
+      console.log(status.data);
     });
+    createRoom();
     getMessages();
     return () => {
       socket.emit("leave", { room: props.room_id }, function () {
