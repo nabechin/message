@@ -101,25 +101,26 @@ const MessageRoom = (props: Props): JSX.Element => {
     });
   };
 
-  const createRoom = () => {
-    socket.emit("join", { room: props.room_id });
-  };
-
   useEffect(() => {
-    console.log("rendering");
     const getMessages = async (): Promise<void> => {
       const { data } = await axiosInstance.get(`/messages/${props.room_id}`);
       setMessages(data);
       scrollToBottom();
     };
-
     socket.on("connect", function (data: { msg: string }) {
-      console.log("connected!!!!");
+      socket.emit("join", { room: props.room_id });
     });
-    socket.on("status", function (status: { data: string }) {
-      console.log(status.data);
+    socket.on("status", function (data: { msg: string }) {
+      console.log(data.msg);
     });
-    createRoom();
+
+    socket.on("message_sent", function () {
+      // setMessages((messages) => [...messages, data]);
+      console.log("send message success!!!");
+      scrollToBottom();
+      setMessage("");
+    });
+
     getMessages();
     return () => {
       socket.emit("leave", { room: props.room_id }, function () {
@@ -128,17 +129,17 @@ const MessageRoom = (props: Props): JSX.Element => {
     };
   }, [props.room_id]);
 
-  const onSend = async (): Promise<void> => {
-    const { data } = await axiosInstance.post("/messages", {
-      content: message,
-      userid: auth.userId,
-      roomid: props.room_id,
-      headers: { "Content-Type": "application/json" },
-    });
-    setMessages((messages) => [...messages, data]);
-    scrollToBottom();
-    setMessage("");
-  };
+  // const onSend = async (): Promise<void> => {
+  //   const { data } = await axiosInstance.post("/messages", {
+  //     content: message,
+  //     userid: auth.userId,
+  //     roomid: props.room_id,
+  //     headers: { "Content-Type": "application/json" },
+  //   });
+  //   setMessages((messages) => [...messages, data]);
+  //   scrollToBottom();
+  //   setMessage("");
+  // };
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -152,6 +153,15 @@ const MessageRoom = (props: Props): JSX.Element => {
       setMessages((messages) => [...messages, data]);
       scrollToBottom();
     }
+  };
+
+  const onSendMessage = () => {
+    console.log("aaa");
+    socket.emit("message_send", {
+      content: message,
+      userId: auth.userId,
+      roomId: props.room_id,
+    });
   };
 
   const renderMessages = () => {
@@ -188,7 +198,7 @@ const MessageRoom = (props: Props): JSX.Element => {
               ></input>
             </div>
             <div>
-              <a onClick={() => onSend()}>
+              <a onClick={() => onSendMessage()}>
                 <SendIcon className={classes.pointer}></SendIcon>
               </a>
             </div>
