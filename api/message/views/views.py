@@ -5,7 +5,7 @@ import logging
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from werkzeug.utils import secure_filename
 
 import message.models
@@ -37,7 +37,7 @@ app.config['SECRET_KEY'] = "eafwufhafeaefaergfarf"
 app.config['CORS_HEADERS'] = ["Content-Type", "Authorization"]
 
 init_db(app)
-socketio = SocketIO(app, cors_allowed_origins="*", async_handlers=True)
+socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
 jwt = JWTManager(app)
 
@@ -61,7 +61,6 @@ def login():
 
 @socketio.on('connect', namespace="/chat")
 def on_connect():
-    print('user connected')
     emit("status", {"data": "Connected!!!!!"})
 
 
@@ -80,7 +79,8 @@ def on_leave(room):
 
 
 @socketio.on("message", namespace="/chat")
-def handle_message(message):
+def handleMessage(msg):
+    logger.info(f"receive message:{msg}!!!!!")
     # logger.info(f"message receive!!!!!{message}")
     # content = message["content"]
     # user_id = message["userId"]
@@ -88,7 +88,7 @@ def handle_message(message):
     # message = Message(content, int(user_id), int(room_id), datetime.datetime.now(), 0, "")
     # message_interactor = MessageInteractor(DBMessageRepository(), MessageSerializer())
     # message = message_interactor.create_message(message)
-    send(message)
+    send({"data": "Message Received!!!!"})
 
 
 @app.route("/users/<user_id>/rooms", methods=["GET"])

@@ -113,21 +113,22 @@ const MessageRoom = (props: Props): JSX.Element => {
     socket.on("status", function (data: { msg: string }) {
       console.log(data.msg);
     });
-
-    socket.on("message_sent", function () {
-      // setMessages((messages) => [...messages, data]);
-      console.log("send message success!!!");
-      scrollToBottom();
-      setMessage("");
-    });
-
+    getMessage();
     getMessages();
     return () => {
-      socket.emit("leave", { room: props.room_id }, function () {
-        socket.disconnect();
-      });
+      socket.emit("leave", { room: props.room_id });
+      socket.disconnect();
     };
   }, [props.room_id]);
+
+  const getMessage = () => {
+    socket.on("message", function (data: any) {
+      // setMessages((messages) => [...messages, data]);
+      console.log(data);
+      // scrollToBottom();
+      // setMessage("");
+    });
+  };
 
   // const onSend = async (): Promise<void> => {
   //   const { data } = await axiosInstance.post("/messages", {
@@ -156,11 +157,10 @@ const MessageRoom = (props: Props): JSX.Element => {
   };
 
   const onSendMessage = () => {
-    console.log("aaa");
-    socket.emit("message_send", {
+    socket.emit("message", {
       content: message,
-      userId: auth.userId,
-      roomId: props.room_id,
+      userid: auth.userId,
+      roomid: props.room_id,
     });
   };
 
