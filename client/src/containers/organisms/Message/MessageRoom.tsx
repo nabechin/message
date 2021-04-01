@@ -87,7 +87,7 @@ interface Props {
 }
 
 const MessageRoom = (props: Props): JSX.Element => {
-  const socket = io.connect("http://localhost:5000/chat");
+  // const socket = io.connect("http://localhost:5000/chat");
   const classes = useStyles();
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
@@ -107,40 +107,40 @@ const MessageRoom = (props: Props): JSX.Element => {
       setMessages(data);
       scrollToBottom();
     };
-    socket.on("connect", function (data: { msg: string }) {
-      socket.emit("join", { room: props.room_id });
-    });
-    socket.on("status", function (data: { msg: string }) {
-      console.log(data.msg);
-    });
-    getMessage();
+    // socket.on("connect", function (data: { msg: string }) {
+    //   socket.emit("join", { room: props.room_id });
+    // });
+    // socket.on("status", function (data: { msg: string }) {
+    //   console.log(data.msg);
+    // });
+    // getMessage();
     getMessages();
-    return () => {
-      socket.emit("leave", { room: props.room_id });
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.emit("leave", { room: props.room_id });
+    //   socket.disconnect();
+    // };
   }, [props.room_id]);
 
-  const getMessage = () => {
-    socket.on("message", function (data: any) {
-      // setMessages((messages) => [...messages, data]);
-      console.log(data);
-      // scrollToBottom();
-      // setMessage("");
-    });
-  };
-
-  // const onSend = async (): Promise<void> => {
-  //   const { data } = await axiosInstance.post("/messages", {
-  //     content: message,
-  //     userid: auth.userId,
-  //     roomid: props.room_id,
-  //     headers: { "Content-Type": "application/json" },
+  // const getMessage = () => {
+  //   socket.on("message", function (data: any) {
+  //     // setMessages((messages) => [...messages, data]);
+  //     console.log(data);
+  //     // scrollToBottom();
+  //     // setMessage("");
   //   });
-  //   setMessages((messages) => [...messages, data]);
-  //   scrollToBottom();
-  //   setMessage("");
   // };
+
+  const onSend = async (): Promise<void> => {
+    const { data } = await axiosInstance.post("/messages", {
+      content: message,
+      userid: auth.userId,
+      roomid: props.room_id,
+      headers: { "Content-Type": "application/json" },
+    });
+    setMessages((messages) => [...messages, data]);
+    scrollToBottom();
+    setMessage("");
+  };
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -156,13 +156,13 @@ const MessageRoom = (props: Props): JSX.Element => {
     }
   };
 
-  const onSendMessage = () => {
-    socket.emit("message", {
-      content: message,
-      userid: auth.userId,
-      roomid: props.room_id,
-    });
-  };
+  // const onSendMessage = () => {
+  //   socket.emit("message", {
+  //     content: message,
+  //     userid: auth.userId,
+  //     roomid: props.room_id,
+  //   });
+  // };
 
   const renderMessages = () => {
     return messages.map((message) => {
@@ -198,7 +198,7 @@ const MessageRoom = (props: Props): JSX.Element => {
               ></input>
             </div>
             <div>
-              <a onClick={() => onSendMessage()}>
+              <a onClick={() => onSend()}>
                 <SendIcon className={classes.pointer}></SendIcon>
               </a>
             </div>
