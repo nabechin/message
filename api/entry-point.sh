@@ -2,4 +2,4 @@
 
 flask db migrate
 flask db upgrade
-gunicorn -w 4 -b 127.0.0.1:5000 run:app
+gunicorn --bind 0.0.0.0:5000 run:app
