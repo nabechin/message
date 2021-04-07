@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import MyMessage from "./MyMessage";
@@ -90,12 +90,16 @@ const MessageRoom = (props: Props): JSX.Element => {
     messages,
     text,
     setText,
+    setRoomId,
     onSend,
     handleChange,
     messagesEndRef,
   } = useMessage();
-  const classes = useStyles();
   const { auth } = useAuth();
+  useEffect(() => {
+    setRoomId(props.room_id);
+  });
+  const classes = useStyles();
 
   const renderMessages = () => {
     return messages.map((message: Message) => {

@@ -20,6 +20,7 @@ interface State {
   messages: Message[];
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
+  setRoomId: React.Dispatch<React.SetStateAction<number | undefined>>;
   onSend: (user: User | null, roomId: number) => void;
   handleChange: (
     roomId: number,
@@ -31,7 +32,16 @@ interface State {
 export default function useMessage(): State {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [roomId, setRoomId] = useState<number>();
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  useEffect(() => {
+    const getMessages = async (): Promise<void> => {
+      const { data } = await axiosInstance.get(`/messages/${roomId}`);
+      setMessages(data);
+      scrollToBottom();
+    };
+    getMessages();
+  }, [roomId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -66,5 +76,13 @@ export default function useMessage(): State {
       scrollToBottom();
     }
   };
-  return { messages, text, setText, onSend, handleChange, messagesEndRef };
+  return {
+    messages,
+    text,
+    setText,
+    setRoomId,
+    onSend,
+    handleChange,
+    messagesEndRef,
+  };
 }
