@@ -31,7 +31,7 @@ interface Friend {
 }
 
 const Home = (): JSX.Element => {
-  const [roomId, setRoomId] = useState<number | null>(null);
+  const [roomId, setRoomId] = useState<number>(0);
   const [friends, setFriends] = useState<Friend[]>([]);
   const [tabIndex, setTubindex] = useState(0);
   const [friendIndex, setFriendIndex] = useState<FriendListIndex | null>(null);

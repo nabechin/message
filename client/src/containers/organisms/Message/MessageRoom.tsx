@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { axiosInstance } from "../../../api";
+import React from "react";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
-import io from "socket.io-client";
 import MyMessage from "./MyMessage";
 import OthersMessage from "./OthersMessage";
 import SendIcon from "@material-ui/icons/Send";
 import useAuth from "../../../hooks/useAuth";
+import useMessage from "../../../hooks/useMessage";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -82,90 +81,24 @@ interface User {
   name: string;
 }
 interface Props {
-  room_id: number | null;
+  room_id: number;
   user: User | null;
 }
 
 const MessageRoom = (props: Props): JSX.Element => {
-  // const socket = io.connect("http://localhost:5000/chat");
+  const {
+    messages,
+    text,
+    setText,
+    onSend,
+    handleChange,
+    messagesEndRef,
+  } = useMessage();
   const classes = useStyles();
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [message, setMessage] = useState("");
-  const messagesEndRef = useRef<null | HTMLDivElement>(null);
-  const { auth, setAuth } = useAuth();
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "auto",
-      block: "end",
-    });
-  };
-
-  useEffect(() => {
-    const getMessages = async (): Promise<void> => {
-      const { data } = await axiosInstance.get(`/messages/${props.room_id}`);
-      setMessages(data);
-      scrollToBottom();
-    };
-    // socket.on("connect", function (data: { msg: string }) {
-    //   socket.emit("join", { room: props.room_id });
-    // });
-    // socket.on("status", function (data: { msg: string }) {
-    //   console.log(data.msg);
-    // });
-    // getMessage();
-    getMessages();
-    // return () => {
-    //   socket.emit("leave", { room: props.room_id });
-    //   socket.disconnect();
-    // };
-  }, [props.room_id]);
-
-  // const getMessage = () => {
-  //   socket.on("message", function (data: any) {
-  //     // setMessages((messages) => [...messages, data]);
-  //     console.log(data);
-  //     // scrollToBottom();
-  //     // setMessage("");
-  //   });
-  // };
-
-  const onSend = async (): Promise<void> => {
-    const { data } = await axiosInstance.post("/messages", {
-      content: message,
-      userid: auth.userId,
-      roomid: props.room_id,
-      headers: { "Content-Type": "application/json" },
-    });
-    setMessages((messages) => [...messages, data]);
-    scrollToBottom();
-    setMessage("");
-  };
-
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const formData = new FormData();
-      formData.append("userId", "1");
-      formData.append("roomId", String(props.room_id));
-      formData.append("file", e.target.files[0]);
-      const { data } = await axiosInstance.post("/images", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setMessages((messages) => [...messages, data]);
-      scrollToBottom();
-    }
-  };
-
-  // const onSendMessage = () => {
-  //   socket.emit("message", {
-  //     content: message,
-  //     userid: auth.userId,
-  //     roomid: props.room_id,
-  //   });
-  // };
+  const { auth } = useAuth();
 
   const renderMessages = () => {
-    return messages.map((message) => {
+    return messages.map((message: Message) => {
       return renderMessage(message);
     });
   };
@@ -192,13 +125,13 @@ const MessageRoom = (props: Props): JSX.Element => {
               </label>
               <input
                 type="file"
-                onChange={handleChange}
+                onChange={(e) => handleChange(props.room_id, e)}
                 id="file-input"
                 className={classes.fileInput}
               ></input>
             </div>
             <div>
-              <a onClick={() => onSend()}>
+              <a onClick={() => onSend(props.user, props.room_id)}>
                 <SendIcon className={classes.pointer}></SendIcon>
               </a>
             </div>
@@ -207,8 +140,8 @@ const MessageRoom = (props: Props): JSX.Element => {
         <div className={classes.message}>
           <textarea
             className={classes.textarea}
-            onChange={(event) => setMessage(event.target.value)}
-            value={message}
+            onChange={(event) => setText(event.target.value)}
+            value={text}
           ></textarea>
         </div>
       </div>

@@ -17,7 +17,7 @@ interface User {
 }
 
 interface Props {
-  room_id: number | null;
+  room_id: number;
   user: User | null;
   onCreateTalkClick: () => void;
 }
