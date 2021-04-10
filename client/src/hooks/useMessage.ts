@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { axiosInstance } from "../api";
+import * as t from "io-ts";
+import * as D from "io-ts/Decoder";
 
 interface Message {
   id: number;
@@ -37,7 +39,8 @@ export default function useMessage(): State {
   useEffect(() => {
     const getMessages = async (): Promise<void> => {
       const { data } = await axiosInstance.get(`/messages/${roomId}`);
-      setMessages(data);
+      const messages = data as Message[];
+      setMessages(messages);
       scrollToBottom();
     };
     getMessages();
